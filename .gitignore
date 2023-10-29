@@ -1,0 +1,16 @@
+# Ignore build folders
+bin/
+
+# Ignore config files
+application.properties
+
+# Ignore IDE files 
+.idea/
+*.iml
+*.class
+
+# Ignore dependency caches
+node_modules/
+.mvn
+
+package-lock.json
