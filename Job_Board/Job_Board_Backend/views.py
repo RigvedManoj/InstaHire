@@ -26,6 +26,8 @@ class Job_list(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class Employer_list(APIView):
+    authentication_classes = [BasicAuthentication]
+    permission_classes = [IsAuthenticated]
     """
     List all snippets, or create a new snippet.
     """
@@ -42,6 +44,8 @@ class Employer_list(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class Applicant_list(APIView):
+    authentication_classes = [BasicAuthentication]
+    permission_classes = [IsAuthenticated]
     """
     List all snippets, or create a new snippet.
     """
@@ -59,6 +63,8 @@ class Applicant_list(APIView):
 
 
 class Job_list_Detail(APIView):
+    authentication_classes = [BasicAuthentication]
+    permission_classes = [IsAuthenticated]
     """
     Retrieve, update or delete a snippet instance.
     """
