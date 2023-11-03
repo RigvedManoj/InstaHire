@@ -1,0 +1,31 @@
+.container {
+    width: 400px; /* Set the width of the container */
+    margin: 0 auto; /* Center the container horizontally */
+    padding: 20px; /* Add padding inside the container */
+    border: 1px solid #ccc; /* Add a border around the container */
+    border-radius: 10px; /* Optional: Add border radius for rounded corners */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional: Add a box shadow for a subtle elevation effect */
+    background-color: white;
+}
+
+.signup-form {
+    display: flex;
+    flex-direction: column;
+    max-width: 300px; /* Optional: Set a maximum width for the form */
+    margin: 0 auto; /* Center the form horizontally */
+}
+
+.form-group {
+    margin-bottom: 20px; /* Margin between form groups */
+}
+.checkbox-group {
+    padding-bottom: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.checkbox-group label {
+    margin-right: 10px; /* Adjust the margin as needed to create space between labels and checkboxes */
+}
+

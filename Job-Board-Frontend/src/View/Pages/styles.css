@@ -1,0 +1,46 @@
+body{
+    background-color: rgb(250, 250, 250); /*Set page background colour*/
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+salutation {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 3px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select,
+textarea {
+    width: 300px;
+    padding: 6px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #45a049;
+}

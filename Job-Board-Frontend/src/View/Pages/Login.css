@@ -1,0 +1,18 @@
+
+.center {
+    text-align: center;
+}
+
+.login-form {
+    max-width: 300px; /* Optional: Set a maximum width for the form */
+    margin: 0 auto; /* Center the form horizontally */
+}
+
+.link-class {
+    font-size: 15px;
+    color: #007bff;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
