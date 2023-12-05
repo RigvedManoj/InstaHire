@@ -5,14 +5,14 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.authentication import BasicAuthentication
-from rest_framework.permissions import IsAuthenticated  
+from rest_framework.permissions import IsAuthenticated 
+from rest_framework_simplejwt.tokens import RefreshToken 
 
 class Job_list(APIView):
-    authentication_classes = [BasicAuthentication]
-    permission_classes = [IsAuthenticated]
     """
     List all snippets, or create a new snippet.
     """
+    permission_classes = (IsAuthenticated, )
     def get(self, request, format=None):
         snippets = Job.objects.all()
         serializer = JobSerializer(snippets, many=True)
@@ -26,11 +26,10 @@ class Job_list(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class Employer_list(APIView):
-    authentication_classes = [BasicAuthentication]
-    permission_classes = [IsAuthenticated]
     """
     List all snippets, or create a new snippet.
     """
+    permission_classes = (IsAuthenticated, )
     def get(self, request, format=None):
         snippets = Employer.objects.all()
         serializer = EmployerSerializer(snippets, many=True)
@@ -44,11 +43,10 @@ class Employer_list(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class Applicant_list(APIView):
-    authentication_classes = [BasicAuthentication]
-    permission_classes = [IsAuthenticated]
     """
     List all snippets, or create a new snippet.
     """
+    permission_classes = (IsAuthenticated, )
     def get(self, request, format=None):
         snippets = Applicant.objects.all()
         serializer = ApplicantSerializer(snippets, many=True)
@@ -63,11 +61,10 @@ class Applicant_list(APIView):
 
 
 class Job_list_Detail(APIView):
-    authentication_classes = [BasicAuthentication]
-    permission_classes = [IsAuthenticated]
     """
     Retrieve, update or delete a snippet instance.
     """
+    permission_classes = (IsAuthenticated, )
     def get_object(self, pk):
         try:
             return Job.objects.get(pk=pk)
@@ -91,3 +88,15 @@ class Job_list_Detail(APIView):
         snippet = self.get_object(pk)
         snippet.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class Logout_Implement(APIView):
+     permission_classes = (IsAuthenticated,)
+     def post(self, request):
+          try:
+               refresh_token = request.data["refresh_token"]
+               token = RefreshToken(refresh_token)
+               token.blacklist()
+               return Response(status=status.HTTP_205_RESET_CONTENT)
+          except Exception as e:
+               return Response(status=status.HTTP_400_BAD_REQUEST)
