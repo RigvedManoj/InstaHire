@@ -1,6 +1,5 @@
 from rest_framework import serializers
-from .models import Job, Applicant , Employer
-from django.contrib.auth.models import User
+from .models import Job, Applicant , Employer , UserAbstract
 from rest_framework.validators import UniqueValidator
 
 class JobSerializer( serializers.ModelSerializer ):
@@ -21,21 +20,26 @@ class EmployerSerializer( serializers.ModelSerializer ):
         fields = [ 'company_name', 'email' , 'email' , 'phone_number' , 'industry' , 'company_description' ,
         'created_at' ]
 
-class UserSerializer(serializers.ModelSerializer):
-    email = serializers.EmailField(
-            required=True,
-            validators=[ UniqueValidator(queryset=User.objects.all()) ]
-            )
-    username = serializers.CharField(
-            validators=[ UniqueValidator(queryset=User.objects.all()) ]
-            )
-    password = serializers.CharField( min_length=8 )
-
-    def create(self, validated_data):
-        user = User.objects.create_user(validated_data['username'], validated_data['email'],
-             validated_data['password'])
-        return user
+class ApplicantUserSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True, style={'input_type': 'password'})
 
     class Meta:
-        model = User
-        fields = ('id', 'username', 'email', 'password')
+        model = UserAbstract
+        fields = ['username', 'password', 'is_applicant', 'is_employer']
+
+    def create(self, validated_data):
+        validated_data['is_applicant'] = True  # Set is_applicant to True during creation
+        user = UserAbstract.objects.create_user(**validated_data)
+        return user
+
+class EmployerUserSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True, style={'input_type': 'password'})
+
+    class Meta:
+        model = UserAbstract
+        fields = ['username', 'password', 'is_applicant', 'is_employer']
+
+    def create(self, validated_data):
+        validated_data['is_employer'] = True  # Set is_applicant to True during creation
+        user = UserAbstract.objects.create_user(**validated_data)
+        return user

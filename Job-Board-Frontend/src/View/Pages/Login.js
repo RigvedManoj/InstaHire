@@ -6,14 +6,20 @@ import axios from "axios";
 export const Login = () => {
     const [formData, setFormData] = useState({
         username: '',
-        password: ''
+        password: '',
+        isEmployer: false
     });
     const navigate = useNavigate();
     const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
-
-    };
+      const { name, value, type, checked } = e.target;
+  
+      // Handle checkbox separately
+      if (type === 'checkbox') {
+          setFormData({ ...formData, [name]: checked });
+      } else {
+          setFormData({ ...formData, [name]: value });
+      }
+  };
 
     const handleSubmit = async e => {
       e.preventDefault();
@@ -50,7 +56,11 @@ export const Login = () => {
      localStorage.setItem('refresh_token', data.refresh);
      axios.defaults.headers.common['Authorization'] = 
                                      `Bearer ${data['access']}`;
-     window.location.href = '/'
+     if (formData.isEmployer === true ) {
+          navigate('/employer-home'); // Redirect to employer home
+     } else  {
+          navigate('/applicant-home'); // Redirect to applicant home
+     }
 }
     return (
         <div>
@@ -83,10 +93,7 @@ export const Login = () => {
                     </div>
                     <div className="checkbox-group">
                         <label htmlFor="checkbox1">Employer</label>
-                        <input type="checkbox" id="checkbox1" name="option1"/>
-
-                        <label htmlFor="checkbox2">Applicant</label>
-                        <input type="checkbox" id="checkbox2" name="option2"/>
+                        <input type="checkbox" id="checkbox1" name="isEmployer" checked = {formData.isEmployer} onChange = {handleInputChange} />
                     </div>
                     <div>
                         <button type="submit">Log In</button>

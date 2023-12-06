@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, Group, Permission
+from django.utils.translation import gettext_lazy as _
 
 class Job( models.Model ):
     title = models.CharField( max_length = 150 )
@@ -40,11 +41,28 @@ class Employer( models.Model ):
     def __str__( self ):
         return self.company_name
 
-class ApplicantUser(AbstractUser):
-    email = models.EmailField( unique = True )
-    username = models.CharField( max_length = 150 )
+class UserAbstract(AbstractUser):
+    is_applicant = models.BooleanField(default=False)
+    is_employer = models.BooleanField(default=False)
 
+    class Meta:
+        db_table = 'custom_user'
+        verbose_name = _('user')
+        verbose_name_plural = _('users')
 
-class EmployerUser(AbstractUser):
-    email = models.EmailField( unique = True )
-    username = models.CharField( max_length = 150 )
+    # Provide unique related_name values to avoid clashes
+    groups = models.ManyToManyField(
+        Group,
+        verbose_name=_('groups'),
+        blank=True,
+        help_text=_('The groups this user belongs to.'),
+        related_name='custom_user_groups'  # Add a related_name to resolve the clash
+    )
+
+    user_permissions = models.ManyToManyField(
+        Permission,
+        verbose_name=_('user permissions'),
+        blank=True,
+        help_text=_('Specific permissions for this user.'),
+        related_name='custom_user_permissions'  # Add a related_name to resolve the clash
+    )

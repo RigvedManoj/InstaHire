@@ -28,6 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [ '*' ]
 
+AUTH_USER_MODEL = 'Job_Board_Backend.UserAbstract'
 
 # Application definition
 
