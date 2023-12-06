@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import AbstractUser
 
 class Job( models.Model ):
     title = models.CharField( max_length = 150 )
@@ -38,3 +39,12 @@ class Employer( models.Model ):
     created_at = models.DateTimeField( default = timezone.now )
     def __str__( self ):
         return self.company_name
+
+class ApplicantUser(AbstractUser):
+    email = models.EmailField( unique = True )
+    username = models.CharField( max_length = 150 )
+
+
+class EmployerUser(AbstractUser):
+    email = models.EmailField( unique = True )
+    username = models.CharField( max_length = 150 )

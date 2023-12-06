@@ -1,7 +1,9 @@
 import React, {useState} from "react";
 import { useNavigate, Link } from 'react-router-dom';
 import './Login.css';
-const Login = () => {
+import axios from "axios";
+
+export const Login = () => {
     const [formData, setFormData] = useState({
         username: '',
         password: ''
@@ -13,35 +15,43 @@ const Login = () => {
 
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        navigate("/jobApplication");
-        /*
-        // Convert formData object to JSON
-        const jsonData = JSON.stringify(formData);
+    const handleSubmit = async e => {
+      e.preventDefault();
+      const user = {
+            username: formData.username,
+            password: formData.password
+           };
+      // Create the POST requuest
+      debugger;
 
-        // Send JSON data to the backend using fetch
-        fetch('http://backend-api-url', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: jsonData
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Response from server:', data);
-                // Handle the response from the server as needed
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                // Handle errors from the request
-            });
-         */
-        // Here, you can perform form submission logic, such as sending data to an API
-        console.log("FormData:", formData);
-    };
+      let data;
+      try {
+      const resp = await axios.post(
+        'http://localhost:8000/token/',
+        user,
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+      data = resp.data;
+    } catch (error) {
+        alert('Oops! Something went wrong. Please try again later.');
+        return;
+    }
 
+
+      debugger;
+
+     // Initialize the access & refresh token in localstorage.      
+     localStorage.clear();
+     localStorage.setItem('access_token', data.access);
+     localStorage.setItem('refresh_token', data.refresh);
+     axios.defaults.headers.common['Authorization'] = 
+                                     `Bearer ${data['access']}`;
+     window.location.href = '/'
+}
     return (
         <div>
         <h1 className="center">Job Board</h1>

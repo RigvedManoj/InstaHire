@@ -1,20 +1,23 @@
+import {BrowserRouter, Routes, Route} from 'react-router-dom'
+import {Login} from "./View/Pages/Login";
+import {Home} from "./View/Pages/home";
+import {Navigation} from './View/Pages/navigations';
+import {Logout} from './View/Pages/logout';
+import {Signup} from './View/Pages/Signup';
+import 'bootstrap/dist/css/bootstrap.css';
+
 // App.js
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Login from './View/Pages/Login';
-import Signup from './View/Pages/Signup';
-import JobApplicationForm from "./View/Pages/Applicant_JobApplication";
 const App = () => {
     return (
-        <Router>
-            <Routes>
-                <Route path="/" element={<Login />} />
-                <Route path="/signup" element={<Signup />} />
-                <Route path="/jobApplication" element={<JobApplicationForm />} />
-            </Routes>
-        </Router>
+        <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home/>}/>
+          <Route path="/login" element={<Login/>}/>
+          <Route path="/logout" element={<Logout/>}/>
+          <Route path="/signup" element={<Signup/>}/>
+        </Routes>
+      </BrowserRouter>
     );
 };
 
 export default App;
-

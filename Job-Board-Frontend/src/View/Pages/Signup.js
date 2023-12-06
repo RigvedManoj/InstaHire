@@ -1,8 +1,9 @@
 // Signup.js
 import React, { useState } from 'react';
 import './Signup.css';
+import axios from "axios";
 
-const Signup = () => {
+export const Signup = () => {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -15,33 +16,33 @@ const Signup = () => {
 
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        /*
-        // Convert formData object to JSON
-        const jsonData = JSON.stringify(formData);
+    const handleSubmit = async e => {
+      try{  
+          e.preventDefault();
+          const user = {
+                  username: formData.name,
+                  password: formData.password,
+                  email: formData.email
+              };
+          // Create the POST requuest
+          debugger;
 
-        // Send JSON data to the backend using fetch
-        fetch('http://backend-api-url', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: jsonData
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Response from server:', data);
-                // Handle the response from the server as needed
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                // Handle errors from the request
-            });
-         */
-        // Here, you can perform form submission logic, such as sending data to an API
-        console.log("FormData:", formData);
-    };
+          const { data } = await axios.post(
+              'http://localhost:8000/signup/',
+              user,
+              {
+              headers: {
+                  'Content-Type': 'application/json'
+              }
+              }
+          );
+          debugger;
+      } catch( error ){
+          alert('Oops! Something went wrong. Please check your input parameters and try again :)');
+          return;
+      }
+       // Initialize the access & refresh token in localstorage.      
+ }
 
     return (
         <div>
