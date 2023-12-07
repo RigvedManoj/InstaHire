@@ -92,15 +92,15 @@ class Job_list_Detail(APIView):
 		return Response(status=status.HTTP_204_NO_CONTENT)
 
 class ApplicantHomeView(APIView):
-   permission_classes = [IsAuthenticated]
+   permission_classes = [ApplicantPermission , IsAuthenticated ]
    def get(self, request):
-	   content = {'message': 'Welcome to the applicant home page'}
+	   content = {'message': 'You have access to this view'}
 	   return Response( content )
 
 class EmployerHomeView(APIView):
-   permission_classes = [IsAuthenticated]
+   permission_classes = [EmployerPermission , IsAuthenticated ]
    def get(self, request):
-	   content = {'message': 'Welcome to the employer home page'}
+	   content = {'message': 'You have access to this view'}
 	   return Response( content )
 
 class ApplicantUserCreate(APIView):

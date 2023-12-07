@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 export const ApplicantHome = () => {
-  const [applicantData, setApplicantData] = useState([]);
-  debugger;
+  const [message, setMessage] = useState('');
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/home/applicant/');
-        setApplicantData(response.data);
+        const response = await axios.get('http://localhost:8000/home/applicant');
+        setMessage(response.data.message); // Set the message from the backend
       } catch (error) {
         console.error('Error fetching applicant data:', error);
       }
@@ -22,12 +22,7 @@ export const ApplicantHome = () => {
       <h1>Welcome to the Applicant Home Page</h1>
       <p>This is the page for applicants.</p>
       <h2>Applicant Data:</h2>
-      <ul>
-        {applicantData.map((applicant) => (
-          <li key={applicant.id}>{applicant.name}</li>
-        ))}
-      </ul>
-      {/* Add applicant-specific content here */}
+      {message && <p>{message}</p>} {/* Display the message from the backend */}
     </div>
   );
 };
