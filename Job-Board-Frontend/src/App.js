@@ -4,6 +4,8 @@ import {Logout} from './View/Pages/logout';
 import {Signup} from './View/Pages/Signup';
 import {EmployerHome} from './View/Pages/EmployerHome';
 import {ApplicantHome} from './View/Pages/ApplicantHome';
+import JobApplicationForm from "./View/Pages/Applicant_JobApplication";
+import JobCreation from "./View/Pages/JobCreation";
 
 // App.js
 const App = () => {
@@ -15,6 +17,8 @@ const App = () => {
           <Route path="/signup" element={<Signup/>}/>
           <Route path="/employer-home" element={<EmployerHome/>}/>
           <Route path="/applicant-home" element={<ApplicantHome/>}/>
+          <Route path="/job-application" element={<JobApplicationForm/>}/>
+          <Route path="/job-creation" element={<JobCreation/>}/>
         </Routes>
       </BrowserRouter>
     );

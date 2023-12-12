@@ -27,7 +27,7 @@ export const Login = () => {
             username: formData.username,
             password: formData.password
            };
-      // Create the POST requuest
+      // Create the POST request
       debugger;
 
       let data;

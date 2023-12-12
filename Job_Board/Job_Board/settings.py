@@ -10,12 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
-from pathlib import Path
 from datetime import timedelta
+from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -26,7 +25,7 @@ SECRET_KEY = 'django-insecure-gcsl=6ig6)2%-zkzkytz^r)x6v3!j^d)axyf7fmc5uovyhm-9r
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [ '*' ]
+ALLOWED_HOSTS = ['*']
 
 AUTH_USER_MODEL = 'Job_Board_Backend.UserAbstract'
 
@@ -78,7 +77,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Job_Board.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
@@ -88,7 +86,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -108,7 +105,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
@@ -119,7 +115,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
@@ -139,8 +134,8 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=10),
-     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
-     'ROTATE_REFRESH_TOKENS': True,
-     'BLACKLIST_AFTER_ROTATION': True
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=10),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True
 }
