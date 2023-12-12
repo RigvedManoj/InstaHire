@@ -20,7 +20,7 @@ class ApplicantSerializer(serializers.ModelSerializer):
 class EmployerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Employer
-        fields = ['company_name', 'email', 'email', 'phone_number', 'industry', 'company_description',
+        fields = ['username', 'company_name', 'email', 'phone_number', 'industry', 'company_description',
                   'created_at']
 
 

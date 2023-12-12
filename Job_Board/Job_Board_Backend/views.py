@@ -1,4 +1,5 @@
 from django.http import Http404
+from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.permissions import AllowAny
 from rest_framework.permissions import IsAuthenticated
@@ -34,11 +35,14 @@ class Employer_list(APIView):
     """
     List all snippets, or create a new snippet.
     """
-    permission_classes = (IsAuthenticated,)
+    #permission_classes = (IsAuthenticated,)
+    permission_classes = [AllowAny]
 
     def get(self, request, format=None):
-        snippets = Employer.objects.all()
-        serializer = EmployerSerializer(snippets, many=True)
+        #snippets = Employer.objects.all()
+        employer = request.GET.get('username', '')
+        jobs = Employer.objects.filter(username__iexact=employer)
+        serializer = EmployerSerializer(jobs, many=True)
         return Response(serializer.data)
 
     def post(self, request, format=None):
@@ -53,7 +57,7 @@ class Applicant_list(APIView):
     """
     List all snippets, or create a new snippet.
     """
-    permission_classes = (IsAuthenticated,)
+    permission_classes = [AllowAny]
 
     def get(self, request, format=None):
         snippets = Applicant.objects.all()
