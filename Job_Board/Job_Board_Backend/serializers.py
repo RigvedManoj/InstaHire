@@ -1,4 +1,6 @@
 from rest_framework import serializers
+from .models import Job, Applicant , Employer , Application , UserAbstract
+from rest_framework.validators import UniqueValidator
 
 from .models import Job, Applicant, Employer, UserAbstract
 
@@ -23,6 +25,13 @@ class EmployerSerializer(serializers.ModelSerializer):
         model = Employer
         fields = ['username', 'company_name', 'email', 'phone_number', 'industry', 'company_description',
                   'created_at']
+
+
+
+class ApplicationSerializer( serializers.ModelSerializer ):
+    class Meta:
+        model = Application
+        fields = [ 'application_id', 'job_id', 'applicant_username', 'employer_username', 'status'  ]
 
 
 class ApplicantUserSerializer(serializers.ModelSerializer):

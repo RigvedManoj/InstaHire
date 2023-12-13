@@ -9,14 +9,13 @@ class Job( models.Model ):
     title = models.CharField( max_length = 150 )
     company = models.CharField( max_length = 150 )
     description = models.TextField()
-    location = models.CharField(max_length=150)
-    listing_date = models.DateTimeField(default=timezone.now)
-    application_deadline = models.DateTimeField()
-    min_salary = models.DecimalField(max_digits=8, decimal_places=1, null=True, blank=True)
-    max_salary = models.DecimalField(max_digits=8, decimal_places=1, null=True, blank=True)
-
-    def __str__(self):
-        return self.title
+    location = models.CharField( max_length = 150 )
+    listing_date = models.DateTimeField( default = timezone.now )
+    application_deadline = models.DateTimeField( )
+    min_salary = models.DecimalField( max_digits = 8 , decimal_places = 1, null = True, blank = True )
+    max_salary = models.DecimalField( max_digits = 8 , decimal_places = 1, null = True, blank = True )
+    def __str__( self ):
+        return str(self.job_id)
 
 
 class Applicant(models.Model):
@@ -64,6 +63,10 @@ class Application( models.Model ):
     job_id = models.ForeignKey( Job, on_delete=models.CASCADE )
     applicant_username = models.ForeignKey( Applicant, on_delete=models.CASCADE )
     employer_username = models.ForeignKey( Employer, on_delete=models.CASCADE )
+    status = models.CharField( max_length = 15 )
+
+    def __str__( self ):
+        return str(self.application_id)
 
 class UserAbstract(AbstractUser):
     is_applicant = models.BooleanField(default=False)

@@ -1,3 +1,5 @@
+from .models import Job , Employer , Applicant
+from .serializers import JobSerializer, EmployerSerializer , ApplicantSerializer ,  ApplicantUserSerializer , EmployerUserSerializer, ApplicationSerializer
 from django.http import Http404
 from django.shortcuts import get_object_or_404
 from rest_framework import status
@@ -73,6 +75,30 @@ class Applicant_list(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class Employer_Applications_List(APIView):
+	"""
+	List all snippets, or create a new snippet.
+	"""
+	#permission_classes = (IsAuthenticated, )
+	permission_classes = [AllowAny]
+	def get(self, request, format=None):
+		employer = request.GET.get('username', '')
+		applications = Employer.objects.filter(username__iexact=employer)
+		serializer = ApplicationSerializer(applications, many=True)
+		return Response(serializer.data)
+
+class Applicant_Applications_List(APIView):
+	"""
+	List all snippets, or create a new snippet.
+	"""
+	#permission_classes = (IsAuthenticated, )
+	permission_classes = [AllowAny]
+	def get(self, request, format=None):
+		applicant = request.GET.get('username', '')
+		applications = Applicant.objects.filter(username__iexact=applicant)
+		serializer = ApplicationSerializer(applications, many=True)
+		return Response(serializer.data)
 
 
 class Job_list_Detail(APIView):
