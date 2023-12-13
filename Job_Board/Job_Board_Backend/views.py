@@ -9,7 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .models import Job, Employer, Applicant
+from .models import Job, Employer, Applicant, Application
 from .permissions import ApplicantPermission, EmployerPermission
 from .serializers import JobSerializer, EmployerSerializer, ApplicantSerializer, ApplicantUserSerializer, \
     EmployerUserSerializer
@@ -20,7 +20,8 @@ class Job_list(APIView):
     """
     List all snippets, or create a new snippet.
     """
-    permission_classes = [EmployerPermission, IsAuthenticated]
+    # permission_classes = [EmployerPermission, IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def get(self, request, format=None):
         snippets = Job.objects.all()
@@ -107,8 +108,8 @@ class Applicant_Applications_List(APIView):
 	#permission_classes = (IsAuthenticated, )
 	permission_classes = [AllowAny]
 	def get(self, request, format=None):
-		applicant = request.GET.get('username', '')
-		applications = Applicant.objects.filter(username__iexact=applicant)
+		applicant = request.GET.get('applicant_username', '')
+		applications = Application.objects.filter(applicant_username__exact=applicant)
 		serializer = ApplicationSerializer(applications, many=True)
 		return Response(serializer.data)
 

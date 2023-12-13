@@ -1,22 +1,20 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useMemo } from "react";
 import { useNavigate, Link } from 'react-router-dom';
-import './ApplicantHome.css';
+// import './ApplicantHome.css';
 import axios from "axios";
+import { Table, Button } from 'rsuite';
 
 export const ApplicantApplications = () => {
     const applicant = localStorage.getItem("username")
-    const [applicationsData, setApplicationsData] = useState({
-        username: applicant,
-        application_id: '',
-        job_id: '',
-        applicant_username: '',
-        employer_username: '',
-        status: ''
-    });
-
-    // const handleInputChange = (e) => {
-    //
-    // }; ??
+    // const [applicationsData, setApplicationsData] = useState({
+    //     applicant_username: applicant,
+    //     application_id: '',
+    //     job_id: '',
+    //     employer_username: '',
+    //     status: ''
+    // });
+    const { Column, HeaderCell, Cell } = Table;
+    const [applicationsData, setApplicationsData] = useState([]);
 
     const [message, setMessage] = useState('');
     const navigate = useNavigate();
@@ -25,9 +23,8 @@ export const ApplicantApplications = () => {
 
     const handleTabClick = (tab) => {
         setActiveTab(tab);
+        if (tab === 'Profile'){ navigate("/applicant-home")}
         if (tab === 'Jobs List'){ navigate("/")}
-        if (tab === 'Applications'){ navigate("/applicant-applications")}
-
     };
 
     const getSymbolForTab = (tab) => {
@@ -55,20 +52,26 @@ export const ApplicantApplications = () => {
                             'Content-Type': 'application/json'
                         },
                         params: {
-                            'username': applicant
+                            'applicant_username': applicant
                         }
                     }
                 );
 
+                // console.log("hi")
+                // console.log(resp.data);
                 if(resp.data.length !== 0){
                     // Append each field individually
-                    Object.keys(applicationsData).forEach((key) => {
-                        setApplicationsData((prevapplicationsData) => {
-                            console.log(prevapplicationsData);
-                            return { ...prevapplicationsData, [key]: resp.data[0][key] };
-                        });
-                    });
+                    // Object.keys(applicationsData).forEach((key) => {
+                    //     setApplicationsData((prevapplicationsData) => {
+                    //         // console.log(prevapplicationsData);
+                    //         return { ...prevapplicationsData, [key]: resp.data[0][key] };
+                    //     });
+                    // });
+                    setApplicationsData(resp.data);
                 }
+                // console.log(resp.data);
+                console.log(applicationsData);
+
 
             } catch (error) {
                 console.log(error);
@@ -85,45 +88,61 @@ export const ApplicantApplications = () => {
         fetchData();
     }, []);
 
-    const handleSubmit = async e => {
-
-    }
-
     return (
         <div>
-            <h1>Welcome to the Applicant Applications Page</h1>
-            <h1>Applications List</h1>
-            <table>
-                <thead>
-                <tr>
-                    <th>Application_ID</th>
-                    <th>Job_ID</th>
-                    <th>Employer</th>
-                    <th>Status</th>
-                    {/* Add more headers for other fields */}
-                </tr>
-                </thead>
-                <tbody>
-                {applicationsData.map(application => (
-                    <tr key={application.id}>
-                        <td>{application.id}</td>
-                        <td>{application.job_id}</td>
-                        <td>{application.employer_username}</td>
-                        <td>{application.status}</td>
-                        {/* Add more cells for other fields */}
-                    </tr>
+            <div className="tab-list">
+                {['Profile', 'Jobs List', 'Applications'].map((tab) => (
+                    <div
+                        key={tab}
+                        className={`tab-item ${tab === activeTab ? 'active' : ''}`}
+                        onClick={() => handleTabClick(tab)}
+                    >
+                        <span className="tab-symbol">{getSymbolForTab(tab)}</span>
+                        {tab}
+                    </div>
                 ))}
-                </tbody>
-            </table>
+            </div>
+            <div className="profile-container">
+
+                <h1>Welcome to the Applicant Applications Page</h1>
+
+                <h1>Applications List</h1>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Application_ID</th>
+                        <th>Job_ID</th>
+                        <th>Employer</th>
+                        <th>Status</th>
+                        {/* Add more headers for other fields */}
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {/*/!*{applicationsData.map(application => (*!/*/}
+                    {/*    <tr key={applicationsData.id}>*/}
+                    {/*        <td>{applicationsData.application_id}</td>*/}
+                    {/*        <td>{applicationsData.job_id}</td>*/}
+                    {/*        <td>{applicationsData.employer_username}</td>*/}
+                    {/*        <td>{applicationsData.status}</td>*/}
+                    {/*        /!* Add more cells for other fields *!/*/}
+                    {/*    </tr>*/}
+                    {/*/!*))}*!/*/}
+                    {applicationsData.map(application => (
+                        <tr key={application.id}>
+                            <td>{application.application_id}</td>
+                            <td>{application.job_id}</td>
+                            <td>{application.employer_username}</td>
+                            <td>{application.status}</td>
+                            {/* Add more elements for other fields */}
+                            {/*<hr /> /!* Add a separator between applications *!/*/}
+                        </tr>))}
+                    </tbody>
+                </table>
+
+            </div>
         </div>
     );
-    // return (
-    //     <div>
-    //         <h1>Welcome to the Applicant Applications Page</h1>
-    //
-    //     </div>
-    //
-    // );
+
 };
 
 export default ApplicantApplications;
