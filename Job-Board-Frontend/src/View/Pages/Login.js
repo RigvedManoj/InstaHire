@@ -53,6 +53,12 @@ export const Login = () => {
      // Initialize the access & refresh token in localstorage.      
      localStorage.clear();
      localStorage.setItem('username', formData.username);
+     if(formData.isEmployer){
+         localStorage.setItem('usertype', 'employer');
+     }
+     else{
+         localStorage.setItem('usertype', 'applicant');
+     }
      localStorage.setItem('access_token', data.access);
      localStorage.setItem('refresh_token', data.refresh);
      axios.defaults.headers.common['Authorization'] = 

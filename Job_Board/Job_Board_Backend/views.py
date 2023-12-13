@@ -16,7 +16,7 @@ class Job_list(APIView):
     """
     List all snippets, or create a new snippet.
     """
-    permission_classes = (IsAuthenticated,)
+    permission_classes = [EmployerPermission, IsAuthenticated]
 
     def get(self, request, format=None):
         snippets = Job.objects.all()
@@ -35,8 +35,8 @@ class Employer_list(APIView):
     """
     List all snippets, or create a new snippet.
     """
-    # permission_classes = (IsAuthenticated,)
-    permission_classes = [AllowAny]
+    permission_classes = [EmployerPermission, IsAuthenticated]
+    #permission_classes = [AllowAny]
 
     def get(self, request, format=None):
         # snippets = Employer.objects.all()
@@ -57,8 +57,8 @@ class Applicant_list(APIView):
     """
     List all snippets, or create a new snippet.
     """
-    # permission_classes = (IsAuthenticated, )
-    permission_classes = [AllowAny]
+    permission_classes = [ApplicantPermission, IsAuthenticated]
+    #permission_classes = [AllowAny]
 
     def get(self, request, format=None):
         # snippets = Applicant.objects.all()
@@ -69,7 +69,6 @@ class Applicant_list(APIView):
 
     def post(self, request, format=None):
         serializer = ApplicantSerializer(data=request.data)
-        print(request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -80,7 +79,7 @@ class Job_list_Detail(APIView):
     """
     Retrieve, update or delete a snippet instance.
     """
-    permission_classes = (IsAuthenticated,)
+    permission_classes = [EmployerPermission, IsAuthenticated]
 
     def get_object(self, pk):
         try:
@@ -127,7 +126,7 @@ class ApplicantUserCreate(APIView):
     """
     Creates the user.
     """
-    permission_classes = [AllowAny]
+    permission_classes = [ApplicantPermission, IsAuthenticated]
 
     def post(self, request, format='json'):
         serializer = ApplicantUserSerializer(data=request.data)
@@ -141,7 +140,8 @@ class EmployerUserCreate(APIView):
     """
     Creates the user.
     """
-    permission_classes = [AllowAny]
+    #permission_classes = [AllowAny]
+    permission_classes = [EmployerPermission, IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
         serializer = EmployerUserSerializer(data=request.data)
@@ -155,7 +155,7 @@ class JobCreate(APIView):
     """
     Creates the user.
     """
-    permission_classes = [AllowAny]
+    permission_classes = [EmployerPermission, IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
         serializer = JobSerializer(data=request.data)
