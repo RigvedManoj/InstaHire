@@ -91,9 +91,7 @@ export const JobCreation = () => {
         }
 
         debugger;
-        axios.defaults.headers.common['Authorization'] =
-            `Bearer ${data['access']}`;
-        navigate('/login');
+        navigate('/employer-home');
     }
     return (
         <div>
