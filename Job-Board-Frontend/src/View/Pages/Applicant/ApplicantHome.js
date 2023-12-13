@@ -4,6 +4,7 @@ import './ApplicantHome.css';
 import {useNavigate} from "react-router-dom";
 
 export const ApplicantHome = () => {
+    const navigate = useNavigate();
     const applicant = localStorage.getItem("username")
     const [formData, setFormData] = useState({
         username: applicant,
@@ -21,7 +22,6 @@ export const ApplicantHome = () => {
         resume: null,
     });
     const [message, setMessage] = useState('');
-    const navigate = useNavigate();
 
     const [activeTab, setActiveTab] = useState('Profile');
     const handleTabClick = (tab) => {
@@ -76,8 +76,12 @@ export const ApplicantHome = () => {
 
             } catch (error) {
                 console.log(error);
-                alert('Oops! Something went wrong. Please try again later.');
-
+                if(error.response.status === 403 || error.response.status === 401){
+                    navigate('/')
+                }
+                else{
+                    alert('Oops! Something went wrong. Please try again later.');
+                }
             }
         };
 
