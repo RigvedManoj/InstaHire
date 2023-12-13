@@ -44,11 +44,32 @@ export const ApplicantHome = () => {
         }
     };
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            // Rest of your code for sending the POST request
+
+            const { data } = await axios.post(
+                'http://localhost:8000/applicant/',
+                formData,
+                {
+                    headers: {'Content-Type': 'multipart/form-data'}
+                }
+            );
+        }
+        catch (error) {
+            console.log(error);
+            alert('Oops! Something went wrong. Please check your input parameters and try again :)');
+            return;
+        }
+
+    };
+
+
     useEffect(() => {
         // Function to fetch data from the backend
         const fetchData = async () => {
             try {
-                debugger;
                 const resp = await axios.get(
                     'http://localhost:8000/applicant/',
                     {
@@ -62,17 +83,13 @@ export const ApplicantHome = () => {
                 );
 
                 if(resp.data.length !== 0){
-                    console.log("dob:",resp);
                     // Append each field individually
                     Object.keys(formData).forEach((key) => {
-                        setFormData((prevFormData) => {
-                            return { ...prevFormData, [key]: resp.data[0][key] };
-                        });
+                        formData[key] = resp.data[0][key];
                     });
-                    //setFormData({ ...formData, ['resume']: resp.data[0].resume });
-                    console.log(formData.resume, resp.data[0].resume);
+                    setFormData({ ...formData, ['resume']: "http://localhost:8000/" + resp.data[0].resume });
                 }
-
+                console.log(formData.first_name)
 
             } catch (error) {
                 console.log(error);
@@ -99,29 +116,7 @@ export const ApplicantHome = () => {
         }
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            console.log("firstName:",formData.first_name);
-            console.log("gender:",formData.gender);
-            console.log("resume:",formData.resume);
-            // Rest of your code for sending the POST request
 
-            const { data } = await axios.post(
-                'http://localhost:8000/applicant/',
-                formData,
-                {
-                    headers: {'Content-Type': 'multipart/form-data'}
-                }
-            );
-        }
-        catch (error) {
-            console.log(error);
-            alert('Oops! Something went wrong. Please check your input parameters and try again :)');
-            return;
-        }
-
-    };
 
     return (
     <div>
@@ -257,14 +252,31 @@ export const ApplicantHome = () => {
                         ></input>
                     </div>
                 </div>
+                {formData.resume?(
+                    <div>
 
-                <div className="form-group">
-                    <label htmlFor="file">Upload a File:</label>
-                    <input type="file" id="file" name="resume" accept=".pdf,.doc,.docx"
-                           onChange={handleInputChange}
-                           required/>
-                </div>
+                        <div>
+                            <a href={formData.resume} target="_blank" rel="noopener noreferrer">
+                                View last Uploaded Resume
+                            </a>
+                        </div>
 
+                        <div className="form-group">
+                            <label htmlFor="file">Upload a File:</label>
+                            <input type="file" id="file" name="resume" accept=".pdf,.doc,.docx"
+                                   onChange={handleInputChange}
+                                   required/>
+                        </div>
+                    </div>
+
+                ):( // Display button for uploading a resume
+                    <div className="form-group">
+                        <label htmlFor="file">Upload a File:</label>
+                        <input type="file" id="file" name="resume" accept=".pdf,.doc,.docx"
+                               onChange={handleInputChange}
+                               required/>
+                    </div>
+                )}
                 <div className="form-actions">
                     <button type="submit">Save Profile</button>
                 </div>
