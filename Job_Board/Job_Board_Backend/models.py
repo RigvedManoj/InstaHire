@@ -41,7 +41,7 @@ class Applicant(models.Model):
     city = models.CharField(max_length=15)
     state = models.CharField(max_length=15)
     country = models.CharField(max_length=15)
-    resume = models.FileField(null=True, blank=True)
+    resume = models.FileField(null=True, blank=True, upload_to='pdfs/')
     created_at = models.DateTimeField(default=timezone.now)
 
     def __str__(self):

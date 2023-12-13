@@ -67,13 +67,9 @@ class Applicant_list(APIView):
         serializer = ApplicantSerializer(profile, many=True)
         return Response(serializer.data)
 
-    def get(self, request, format=None):
-        snippets = Applicant.objects.all()
-        serializer = ApplicantSerializer(snippets, many=True)
-        return Response(serializer.data)
-
     def post(self, request, format=None):
         serializer = ApplicantSerializer(data=request.data)
+        print(request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)

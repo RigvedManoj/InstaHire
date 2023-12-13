@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import './Signup.css';
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 export const Signup = () => {
     const [formData, setFormData] = useState({
@@ -12,7 +13,7 @@ export const Signup = () => {
         isEmployer: false,  // Initial state for the checkboxes
         isApplicant: false,
     });
-
+    const navigate = useNavigate();
     const handleInputChange = (e) => {
         const { name, value, type, checked } = e.target;
 
@@ -52,6 +53,7 @@ export const Signup = () => {
                 }
             );
             debugger;
+            navigate('/');
         } catch (error) {
             alert('Oops! Something went wrong. Please check your input parameters and try again :)');
             return;

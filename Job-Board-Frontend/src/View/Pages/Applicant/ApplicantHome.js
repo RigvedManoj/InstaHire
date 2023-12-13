@@ -53,7 +53,7 @@ export const ApplicantHome = () => {
                     'http://localhost:8000/applicant/',
                     {
                         headers: {
-                            'Content-Type': 'application/json'
+                            'Content-Type': 'multipart/form-data'
                         },
                         params: {
                             'username': applicant
@@ -69,6 +69,8 @@ export const ApplicantHome = () => {
                             return { ...prevFormData, [key]: resp.data[0][key] };
                         });
                     });
+                    //setFormData({ ...formData, ['resume']: resp.data[0].resume });
+                    console.log(formData.resume, resp.data[0].resume);
                 }
 
 
@@ -105,7 +107,7 @@ export const ApplicantHome = () => {
                 'http://localhost:8000/applicant/',
                 formData,
                 {
-                    headers: {'Content-Type': 'application/json'}
+                    headers: {'Content-Type': 'multipart/form-data'}
                 }
             );
         }

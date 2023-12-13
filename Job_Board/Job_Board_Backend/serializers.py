@@ -13,8 +13,9 @@ class JobSerializer(serializers.ModelSerializer):
 class ApplicantSerializer(serializers.ModelSerializer):
     class Meta:
         model = Applicant
-        fields = [ 'username', 'first_name', 'last_name' , 'gender', 'dob', 'email' , 'phone_number' , 'address_line1' , 'address_line2' ,'city' ,
-        'state' , 'country' , 'resume', 'created_at' ]
+        fields = ['username', 'first_name', 'last_name', 'gender', 'dob', 'email', 'phone_number', 'address_line1',
+                  'address_line2', 'city',
+                  'state', 'country', 'resume', 'created_at']
 
 
 class EmployerSerializer(serializers.ModelSerializer):
