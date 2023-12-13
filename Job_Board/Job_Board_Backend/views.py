@@ -48,10 +48,13 @@ class Applicant_list(APIView):
 	"""
 	List all snippets, or create a new snippet.
 	"""
-	permission_classes = (IsAuthenticated, )
+	#permission_classes = (IsAuthenticated, )
+	permission_classes = [AllowAny]
 	def get(self, request, format=None):
-		snippets = Applicant.objects.all()
-		serializer = ApplicantSerializer(snippets, many=True)
+		#snippets = Applicant.objects.all()
+		applicant = request.GET.get('username', '')
+		profile = Applicant.objects.filter(username__iexact=applicant)
+		serializer = ApplicantSerializer(profile, many=True)
 		return Response(serializer.data)
 
 	def post(self, request, format=None):
@@ -92,16 +95,16 @@ class Job_list_Detail(APIView):
 		return Response(status=status.HTTP_204_NO_CONTENT)
 
 class ApplicantHomeView(APIView):
-   permission_classes = [ApplicantPermission , IsAuthenticated ]
-   def get(self, request):
-	   content = {'message': 'You have access to this view'}
-	   return Response( content )
+	permission_classes = [ApplicantPermission , IsAuthenticated ]
+	def get(self, request):
+		content = {'message': 'You have access to this view'}
+		return Response(content)
 
 class EmployerHomeView(APIView):
-   permission_classes = [EmployerPermission , IsAuthenticated ]
-   def get(self, request):
-	   content = {'message': 'You have access to this view'}
-	   return Response( content )
+	permission_classes = [EmployerPermission , IsAuthenticated ]
+	def get(self, request):
+		content = {'message': 'You have access to this view'}
+		return Response( content )
 
 class ApplicantUserCreate(APIView):
 	""" 

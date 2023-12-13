@@ -52,6 +52,7 @@ export const Login = () => {
 
      // Initialize the access & refresh token in localstorage.      
      localStorage.clear();
+     localStorage.setItem('username',formData.username);
      localStorage.setItem('access_token', data.access);
      localStorage.setItem('refresh_token', data.refresh);
      axios.defaults.headers.common['Authorization'] = 
@@ -95,7 +96,7 @@ export const Login = () => {
                         <label htmlFor="checkbox1">Employer</label>
                         <input type="checkbox" id="checkbox1" name="isEmployer" checked = {formData.isEmployer} onChange = {handleInputChange} />
                     </div>
-                    <div>
+                    <div className="button">
                         <button type="submit">Log In</button>
                     </div>
                     <div style={{paddingTop: 10 }}>
