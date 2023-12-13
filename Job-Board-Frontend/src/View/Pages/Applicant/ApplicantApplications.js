@@ -114,27 +114,16 @@ export const ApplicantApplications = () => {
                         <th>Job_ID</th>
                         <th>Employer</th>
                         <th>Status</th>
-                        {/* Add more headers for other fields */}
                     </tr>
                     </thead>
                     <tbody>
-                    {/*/!*{applicationsData.map(application => (*!/*/}
-                    {/*    <tr key={applicationsData.id}>*/}
-                    {/*        <td>{applicationsData.application_id}</td>*/}
-                    {/*        <td>{applicationsData.job_id}</td>*/}
-                    {/*        <td>{applicationsData.employer_username}</td>*/}
-                    {/*        <td>{applicationsData.status}</td>*/}
-                    {/*        /!* Add more cells for other fields *!/*/}
-                    {/*    </tr>*/}
-                    {/*/!*))}*!/*/}
                     {applicationsData.map(application => (
                         <tr key={application.id}>
                             <td>{application.application_id}</td>
                             <td>{application.job_id}</td>
                             <td>{application.employer_username}</td>
                             <td>{application.status}</td>
-                            {/* Add more elements for other fields */}
-                            {/*<hr /> /!* Add a separator between applications *!/*/}
+
                         </tr>))}
                     </tbody>
                 </table>

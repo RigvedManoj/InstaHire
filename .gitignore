@@ -14,3 +14,15 @@ node_modules/
 .mvn
 
 package-lock.json
+
+
+# Ignore cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+#ignore Database
+*.sqlite3
+migrations/*
+media/*
