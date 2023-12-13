@@ -35,11 +35,11 @@ class Employer_list(APIView):
     """
     List all snippets, or create a new snippet.
     """
-    #permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     permission_classes = [AllowAny]
 
     def get(self, request, format=None):
-        #snippets = Employer.objects.all()
+        # snippets = Employer.objects.all()
         employer = request.GET.get('username', '')
         jobs = Employer.objects.filter(username__iexact=employer)
         serializer = EmployerSerializer(jobs, many=True)
@@ -57,7 +57,15 @@ class Applicant_list(APIView):
     """
     List all snippets, or create a new snippet.
     """
+    # permission_classes = (IsAuthenticated, )
     permission_classes = [AllowAny]
+
+    def get(self, request, format=None):
+        # snippets = Applicant.objects.all()
+        applicant = request.GET.get('username', '')
+        profile = Applicant.objects.filter(username__iexact=applicant)
+        serializer = ApplicantSerializer(profile, many=True)
+        return Response(serializer.data)
 
     def get(self, request, format=None):
         snippets = Applicant.objects.all()

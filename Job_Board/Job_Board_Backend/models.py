@@ -20,18 +20,27 @@ class Job(models.Model):
 
 
 class Applicant(models.Model):
+    MALE = 'male'
+    FEMALE = 'female'
+    OTHER = 'other'
+
+    GENDER_CHOICES = [
+        (MALE, 'Male'),
+        (FEMALE, 'Female'),
+        (OTHER, 'Other'),
+    ]
     username = models.CharField(primary_key=True, max_length=100, unique=True)
     first_name = models.CharField(max_length=150)
     last_name = models.CharField(max_length=150)
+    gender = models.CharField(max_length=10, choices=GENDER_CHOICES)
     email = models.EmailField(unique=True)
     phone_number = models.CharField(max_length=10)
-    address = models.TextField()
+    address_line1 = models.TextField()
+    address_line2 = models.TextField()
     city = models.CharField(max_length=15)
     state = models.CharField(max_length=15)
     country = models.CharField(max_length=15)
-    skills = models.TextField()
-    education = models.TextField()
-    experience = models.TextField()
+    resume = models.FileField(null=True, blank=True)
     created_at = models.DateTimeField(default=timezone.now)
 
     def __str__(self):

@@ -96,7 +96,7 @@ export const Login = () => {
                         <label htmlFor="checkbox1">Employer</label>
                         <input type="checkbox" id="checkbox1" name="isEmployer" checked = {formData.isEmployer} onChange = {handleInputChange} />
                     </div>
-                    <div>
+                    <div className="button">
                         <button type="submit">Log In</button>
                     </div>
                     <div style={{paddingTop: 10 }}>

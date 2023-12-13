@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import './styles.css';
 import {useNavigate} from "react-router-dom";
-import axios from "axios"; // Import your CSS file for styling
 
 const JobApplicationForm = () => {
     const [formData, setFormData] = useState({
