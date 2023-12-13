@@ -4,10 +4,10 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 
-class Job( models.Model ):
-    job_id = models.AutoField( primary_key=True )
-    title = models.CharField( max_length = 150 )
-    company = models.CharField( max_length = 150 )
+class Job(models.Model):
+    id = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=150)
+    company = models.CharField(max_length=150)
     description = models.TextField()
     location = models.CharField(max_length=150)
     listing_date = models.DateTimeField(default=timezone.now)
@@ -47,23 +47,19 @@ class Applicant(models.Model):
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
 
-class Employer( models.Model ):
+
+class Employer(models.Model):
     username = models.CharField(primary_key=True, max_length=100, unique=True)
-    company_name = models.CharField( max_length = 100 )
-    email = models.EmailField( unique = True )
-    phone_number = models.CharField( max_length = 15 )
-    industry = models.CharField( max_length = 100 )
+    company_name = models.CharField(max_length=100, unique=True)
+    email = models.EmailField(unique=True)
+    phone_number = models.CharField(max_length=15)
+    industry = models.CharField(max_length=100)
     company_description = models.TextField()
     created_at = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return self.company_name
 
-class Application( models.Model ):
-    application_id = models.AutoField( primary_key=True )
-    job_id = models.ForeignKey( Job, on_delete=models.CASCADE )
-    applicant_username = models.ForeignKey( Applicant, on_delete=models.CASCADE )
-    employer_username = models.ForeignKey( Employer, on_delete=models.CASCADE )
 
 class UserAbstract(AbstractUser):
     is_applicant = models.BooleanField(default=False)
