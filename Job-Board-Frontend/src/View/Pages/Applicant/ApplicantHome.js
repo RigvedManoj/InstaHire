@@ -53,7 +53,7 @@ export const ApplicantHome = () => {
                     'http://localhost:8000/applicant/',
                     {
                         headers: {
-                            'Content-Type': 'application/json'
+                            'Content-Type': 'multipart/form-data'
                         },
                         params: {
                             'username': applicant
@@ -61,16 +61,21 @@ export const ApplicantHome = () => {
                     }
                 );
 
-                // Append each field individually
-                Object.keys(formData).forEach((key) => {
-                    setFormData((prevFormData) => {
-                        return { ...prevFormData, [key]: resp.data[0][key] };
+                if(resp.data.length !== 0){
+                    console.log("dob:",resp);
+                    // Append each field individually
+                    Object.keys(formData).forEach((key) => {
+                        setFormData((prevFormData) => {
+                            return { ...prevFormData, [key]: resp.data[0][key] };
+                        });
                     });
-                });
-
+                    //setFormData({ ...formData, ['resume']: resp.data[0].resume });
+                    console.log(formData.resume, resp.data[0].resume);
+                }
 
 
             } catch (error) {
+                console.log(error);
                 alert('Oops! Something went wrong. Please try again later.');
 
             }
@@ -97,17 +102,12 @@ export const ApplicantHome = () => {
             console.log("gender:",formData.gender);
             console.log("resume:",formData.resume);
             // Rest of your code for sending the POST request
-            const formDataToSend = new FormData();
 
-            // Append each field individually
-            Object.keys(formData).forEach((key) => {
-                formDataToSend.append(key, formData[key]);
-            });
             const { data } = await axios.post(
                 'http://localhost:8000/applicant/',
                 formData,
                 {
-                    headers: {'Content-Type': 'application/json'}
+                    headers: {'Content-Type': 'multipart/form-data'}
                 }
             );
         }
@@ -135,7 +135,7 @@ export const ApplicantHome = () => {
       </div>
         <div className="profile-container">
             <h1>User Profile</h1>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} encType="multipart/form-data">
                 <div className="row">
                     {/* Form Group (first name) */}
                     <div className="col-2">
