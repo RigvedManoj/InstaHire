@@ -3,7 +3,7 @@ import {Login} from "./View/Pages/Login";
 import {Logout} from './View/Pages/logout';
 import {Signup} from './View/Pages/Signup';
 import {JobApplicationForm} from "./View/Pages/Applicant/Applicant_JobApplication";
-import {JobCreation} from "./View/Pages/JobCreation";
+import {JobCreation} from "./View/Pages/Employer/JobCreation";
 import {EmployerHome} from './View/Pages/Employer/EmployerHome';
 import {ApplicantHome} from './View/Pages/Applicant/ApplicantHome';
 import {ApplicantApplications} from './View/Pages/Applicant/ApplicantApplications';

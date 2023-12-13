@@ -30,11 +30,12 @@ class Applicant(models.Model):
         (OTHER, 'Other'),
     ]
     username = models.CharField(primary_key=True, max_length=100, unique=True)
-    first_name = models.CharField(max_length=150)
-    last_name = models.CharField(max_length=150)
-    gender = models.CharField(max_length=10, choices=GENDER_CHOICES)
-    email = models.EmailField(unique=True)
-    phone_number = models.CharField(max_length=10)
+    first_name = models.CharField( max_length = 150 )
+    last_name = models.CharField( max_length = 150 )
+    gender = models.CharField( max_length = 10, choices=GENDER_CHOICES)
+    dob = models.DateField()
+    email = models.EmailField( unique = True )
+    phone_number = models.CharField( max_length = 10 )
     address_line1 = models.TextField()
     address_line2 = models.TextField()
     city = models.CharField(max_length=15)

@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
-import './styles.css';
+import '../styles.css';
 import {useNavigate} from "react-router-dom";
 
-const JobApplicationForm = () => {
+export const JobApplicationForm = () => {
     const [formData, setFormData] = useState({
         salutation: '',
         firstName: '',

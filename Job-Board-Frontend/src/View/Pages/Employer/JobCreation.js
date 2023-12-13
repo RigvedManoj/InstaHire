@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import './styles.css';
+import '../styles.css';
 import {useNavigate} from "react-router-dom";
 import axios from "axios"; // Import your CSS file for styling
 
-const JobCreation = () => {
+export const JobCreation = () => {
     const employer = localStorage.getItem("username")
     const [formData, setFormData] = useState({
         title: '',
