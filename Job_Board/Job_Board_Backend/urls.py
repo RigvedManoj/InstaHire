@@ -1,6 +1,9 @@
 from Job_Board_Backend import views
 from django.urls import path
 from rest_framework_simplejwt import views as jwt_views
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 urlpatterns = [
     path('jobs/', views.Job_list.as_view()),
@@ -19,3 +22,7 @@ urlpatterns = [
     path('home/applicant', views.ApplicantHomeView.as_view()),
     path('jobCreate/', views.JobCreate.as_view())
 ]
+
+# Serve media files during development
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

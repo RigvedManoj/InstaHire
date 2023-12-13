@@ -1,4 +1,5 @@
 from django.http import Http404
+from django.core.files.storage import default_storage
 from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.permissions import AllowAny
@@ -10,6 +11,7 @@ from .models import Job, Employer, Applicant
 from .permissions import ApplicantPermission, EmployerPermission
 from .serializers import JobSerializer, EmployerSerializer, ApplicantSerializer, ApplicantUserSerializer, \
     EmployerUserSerializer
+
 
 
 class Job_list(APIView):
@@ -68,10 +70,19 @@ class Applicant_list(APIView):
         return Response(serializer.data)
 
     def post(self, request, format=None):
-        serializer = ApplicantSerializer(data=request.data)
-        print(request.data)
+        applicant = request.data.get('username', None)
+        try:
+            applicant = Applicant.objects.get(username=applicant)
+            # Get the previous resume file
+            previous_resume = applicant.resume
+            serializer = ApplicantSerializer(applicant, data=request.data)
+        except Applicant.DoesNotExist:
+            serializer = ApplicantSerializer(data=request.data)
+
         if serializer.is_valid():
             serializer.save()
+            if previous_resume:
+                default_storage.delete(previous_resume.name)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
