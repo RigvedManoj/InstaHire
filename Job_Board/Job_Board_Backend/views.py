@@ -138,7 +138,8 @@ class ApplicantUserCreate(APIView):
     """
     Creates the user.
     """
-    permission_classes = [ApplicantPermission, IsAuthenticated]
+    permission_classes = [AllowAny]
+    #permission_classes = [ApplicantPermission, IsAuthenticated]
 
     def post(self, request, format='json'):
         serializer = ApplicantUserSerializer(data=request.data)
@@ -152,8 +153,8 @@ class EmployerUserCreate(APIView):
     """
     Creates the user.
     """
-    #permission_classes = [AllowAny]
-    permission_classes = [EmployerPermission, IsAuthenticated]
+    permission_classes = [AllowAny]
+    #permission_classes = [EmployerPermission, IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
         serializer = EmployerUserSerializer(data=request.data)

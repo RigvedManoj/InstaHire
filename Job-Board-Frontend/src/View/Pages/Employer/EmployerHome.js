@@ -8,7 +8,7 @@ export const EmployerHome = () => {
   const [formData, setFormData] = useState({
     username: employer,
     company_name: '',
-    email: '0',
+    email: '',
     phone_number: '',
     industry: '',
     company_description: '',
@@ -65,7 +65,7 @@ export const EmployerHome = () => {
       } catch (error) {
         console.log(error);
         if(error.response.status === 403 || error.response.status === 401){
-          navigate('/')
+          //navigate('/')
         }
         else{
           alert('Oops! Something went wrong. Please try again later.');
