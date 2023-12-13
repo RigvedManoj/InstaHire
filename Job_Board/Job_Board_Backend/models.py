@@ -4,6 +4,7 @@ from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.utils.translation import gettext_lazy as _
 
 class Job( models.Model ):
+    job_id = models.AutoField( primary_key=True )
     title = models.CharField( max_length = 150 )
     company = models.CharField( max_length = 150 )
     description = models.TextField()
@@ -42,6 +43,7 @@ class Applicant( models.Model ):
         return f"{self.first_name} {self.last_name}"
 
 class Employer( models.Model ):
+    username = models.CharField(primary_key=True, max_length=100, unique=True)
     company_name = models.CharField( max_length = 100 )
     email = models.EmailField( unique = True )
     phone_number = models.CharField( max_length = 15 )
@@ -50,6 +52,12 @@ class Employer( models.Model ):
     created_at = models.DateTimeField( default = timezone.now )
     def __str__( self ):
         return self.company_name
+
+class Application( models.Model ):
+    application_id = models.AutoField( primary_key=True )
+    job_id = models.ForeignKey( Job, on_delete=models.CASCADE )
+    applicant_username = models.ForeignKey( Applicant, on_delete=models.CASCADE )
+    employer_username = models.ForeignKey( Employer, on_delete=models.CASCADE )
 
 class UserAbstract(AbstractUser):
     is_applicant = models.BooleanField(default=False)
