@@ -63,7 +63,7 @@ class Application( models.Model ):
     job_id = models.ForeignKey( Job, on_delete=models.CASCADE )
     applicant_username = models.ForeignKey( Applicant, on_delete=models.CASCADE )
     employer_username = models.ForeignKey( Employer, on_delete=models.CASCADE )
-    status = models.CharField( max_length = 15 )
+    status = models.CharField( max_length = 15, default="Received" )
 
     def __str__( self ):
         return str(self.application_id)

@@ -7,6 +7,7 @@ import {JobCreation} from "./View/Pages/Employer/JobCreation";
 import {EmployerHome} from './View/Pages/Employer/EmployerHome';
 import {ApplicantHome} from './View/Pages/Applicant/ApplicantHome';
 import {ApplicantApplications} from './View/Pages/Applicant/ApplicantApplications';
+import EmployerApplications from "./View/Pages/Employer/EmployerApplications";
 
 
 // App.js
@@ -22,6 +23,7 @@ const App = () => {
           <Route path="/job-application" element={<JobApplicationForm/>}/>
           <Route path="/job-creation" element={<JobCreation/>}/>
           <Route path="/applicant-applications" element={<ApplicantApplications/>}/>
+          <Route path="/employer-applications" element={<EmployerApplications/>}/>
         </Routes>
       </BrowserRouter>
     );

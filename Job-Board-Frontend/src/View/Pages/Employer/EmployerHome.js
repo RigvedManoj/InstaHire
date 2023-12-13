@@ -18,7 +18,7 @@ export const EmployerHome = () => {
   const handleTabClick = (tab) => {
     setActiveTab(tab);
     if (tab === 'Create Job'){ navigate("/job-creation")}
-    if (tab === 'Applications'){ navigate("/")}
+    if (tab === 'Applications'){ navigate("/employer-applications")}
 
   };
 

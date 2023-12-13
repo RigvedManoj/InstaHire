@@ -96,8 +96,8 @@ class Employer_Applications_List(APIView):
 	#permission_classes = (IsAuthenticated, )
 	permission_classes = [AllowAny]
 	def get(self, request, format=None):
-		employer = request.GET.get('username', '')
-		applications = Employer.objects.filter(username__iexact=employer)
+		employer = request.GET.get('employer_username', '')
+		applications = Application.objects.filter(employer_username__exact=employer)
 		serializer = ApplicationSerializer(applications, many=True)
 		return Response(serializer.data)
 

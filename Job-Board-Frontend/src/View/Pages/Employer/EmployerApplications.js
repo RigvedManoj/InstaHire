@@ -3,10 +3,10 @@ import { useNavigate, Link } from 'react-router-dom';
 // import './ApplicantHome.css';
 import axios from "axios";
 
-export const ApplicantApplications = () => {
-    const applicant = localStorage.getItem("username")
+export const EmployerApplications = () => {
+    const employer = localStorage.getItem("username")
     // const [applicationsData, setApplicationsData] = useState({
-    //     applicant_username: applicant,
+    //     employer_username: employer,
     //     application_id: '',
     //     job_id: '',
     //     employer_username: '',
@@ -21,7 +21,7 @@ export const ApplicantApplications = () => {
 
     const handleTabClick = (tab) => {
         setActiveTab(tab);
-        if (tab === 'Profile'){ navigate("/applicant-home")}
+        if (tab === 'Profile'){ navigate("/employer-home")}
         if (tab === 'Jobs List'){ navigate("/")}
     };
 
@@ -29,7 +29,7 @@ export const ApplicantApplications = () => {
         switch (tab) {
             case 'Profile':
                 return '👤';
-            case 'Jobs List':
+            case 'Create Job':
                 return '💼';
             case 'Applications':
                 return '📄';
@@ -44,13 +44,13 @@ export const ApplicantApplications = () => {
             try {
                 debugger;
                 const resp = await axios.get(
-                    'http://localhost:8000/applicant/applications/',
+                    'http://localhost:8000/employer/applications/',
                     {
                         headers: {
                             'Content-Type': 'application/json'
                         },
                         params: {
-                            'applicant_username': applicant
+                            'employer_username': employer
                         }
                     }
                 );
@@ -102,7 +102,7 @@ export const ApplicantApplications = () => {
             </div>
             <div className="profile-container">
 
-                <h1>Welcome to the Applicant Applications Page</h1>
+                <h1>Welcome to the Employer Applications Page</h1>
 
                 <h1>Applications List</h1>
                 <table>
@@ -110,7 +110,7 @@ export const ApplicantApplications = () => {
                     <tr>
                         <th>Application_ID</th>
                         <th>Job_ID</th>
-                        <th>Employer</th>
+                        <th>Applicant</th>
                         <th>Status</th>
                     </tr>
                     </thead>
@@ -119,7 +119,7 @@ export const ApplicantApplications = () => {
                         <tr key={application.id}>
                             <td>{application.application_id}</td>
                             <td>{application.job_id}</td>
-                            <td>{application.employer_username}</td>
+                            <td>{application.applicant_username}</td>
                             <td>{application.status}</td>
 
                         </tr>))}
@@ -132,4 +132,4 @@ export const ApplicantApplications = () => {
 
 };
 
-export default ApplicantApplications;
+export default EmployerApplications;
