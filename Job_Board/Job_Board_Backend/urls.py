@@ -21,7 +21,8 @@ urlpatterns = [
     path('home/employer', views.EmployerHomeView.as_view() ),
     path('home/applicant', views.ApplicantHomeView.as_view() ),
     path('employer/applications/', views.Employer_Applications_List.as_view()),
-    path('applicant/applications/', views.Applicant_Applications_List.as_view())
+    path('applicant/applications/', views.Applicant_Applications_List.as_view()),
+    path('jobCreate/', views.JobCreate.as_view())
 ]
 
 
