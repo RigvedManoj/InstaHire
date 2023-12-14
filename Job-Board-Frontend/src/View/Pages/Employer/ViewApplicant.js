@@ -4,7 +4,7 @@ import {useNavigate} from "react-router-dom";
 
 export const ViewApplicant = () => {
     const navigate = useNavigate();
-    const applicant = localStorage.getItem("applicant")
+    const applicant = localStorage.getItem("applicant_username")
     const [formData, setFormData] = useState({
         username: applicant,
         first_name: '',
@@ -29,6 +29,32 @@ export const ViewApplicant = () => {
         if (tab === 'Applications'){ navigate("/employer-applications")}
     };
 
+    const handleStatus = async(value) => {
+            const application = {
+                applicant_username: localStorage.getItem("applicant_username"),
+                employer_username: localStorage.getItem("employer_username"),
+                job_id: localStorage.getItem("job_id"),
+                application_id: localStorage.getItem("application_id"),
+                status: value,
+            }
+            console.log(application)
+        try{
+            // Rest of your code for sending the POST request
+            const { data } = await axios.post(
+                'http://localhost:8000/applicant/applications/',
+                application,
+                {
+                    headers: {'Content-Type': 'application/json'}
+                }
+            );
+        }
+        catch (error) {
+            console.log(error);
+            alert('Oops! Something went wrong. Please check your input parameters and try again :)');
+            return;
+        }
+
+    };
     const getSymbolForTab = (tab) => {
         switch (tab) {
             case 'Profile':
@@ -224,6 +250,14 @@ export const ViewApplicant = () => {
                         </div>
 
                     ):<div/>}
+                    <div className="row">
+                        <div >
+                            <div onClick={() => handleStatus('Accepted')} >Accept</div>
+                        </div>
+                        <div >
+                            <div onClick={() => handleStatus('Rejected')}>Reject</div>
+                        </div>
+                    </div>
                 </form>
 
             </div>

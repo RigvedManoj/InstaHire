@@ -37,8 +37,11 @@ export const EmployerApplications = () => {
                 return '';
         }
     };
-    const handleRowClick = (username) => {
-        localStorage.setItem('applicant', username);
+    const handleRowClick = (application) => {
+        localStorage.setItem('applicant_username', application.applicant_username);
+        localStorage.setItem('employer_username', application.employer_username);
+        localStorage.setItem('application_id', application.application_id);
+        localStorage.setItem('job_id', application.job_id);
         navigate("/view_applicant")
         // You can perform additional actions here based on the clicked row
     };
@@ -128,7 +131,7 @@ export const EmployerApplications = () => {
                     </thead>
                     <tbody>
                     {applicationsData.map((application,index) => (
-                        <tr key={application.id} onClick={() => handleRowClick(application.applicant_username)}>
+                        <tr key={application.id} onClick={() => handleRowClick(application)}>
                             <td>{application.application_id}</td>
                             <td>{application.job_id}</td>
                             <td>{jobsData[index] && jobsData[index].title}</td>
