@@ -21,6 +21,7 @@ export const JobCreation = () => {
         setActiveTab(tab);
         if (tab === 'Profile'){ navigate("/employer-home")}
         if (tab === 'Applications'){ navigate("/employer-applications")}
+        if (tab === 'Logout'){ navigate("/logout")}
 
     };
     const getSymbolForTab = (tab) => {
@@ -31,6 +32,8 @@ export const JobCreation = () => {
                 return '💼';
             case 'Applications':
                 return '📄';
+            case 'Logout':
+                return '🚪';
             default:
                 return '';
         }
@@ -99,7 +102,7 @@ export const JobCreation = () => {
     return (
         <div>
             <div className="tab-list">
-                {['Profile', 'Create Job', 'Applications'].map((tab) => (
+                {['Profile', 'Create Job', 'Applications', 'Logout'].map((tab) => (
                     <div
                         key={tab}
                         className={`tab-item ${tab === activeTab ? 'active' : ''}`}

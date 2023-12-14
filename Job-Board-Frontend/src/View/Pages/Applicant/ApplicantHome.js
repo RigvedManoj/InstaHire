@@ -27,6 +27,7 @@ export const ApplicantHome = () => {
       setActiveTab(tab);
       if (tab === 'Jobs List'){ navigate("/applicant-jobs-list")}
       if (tab === 'Applications'){ navigate("/applicant-applications")}
+      if (tab === 'Logout'){ navigate("/logout")}
 
     };
 
@@ -38,6 +39,8 @@ export const ApplicantHome = () => {
               return '💼';
           case 'Applications':
               return '📄';
+          case 'Logout':
+              return '🚪';
           default:
                return '';
         }
@@ -152,7 +155,7 @@ export const ApplicantHome = () => {
     return (
     <div>
       <div className="tab-list">
-        {['Profile', 'Jobs List', 'Applications'].map((tab) => (
+        {['Profile', 'Jobs List', 'Applications', 'Logout'].map((tab) => (
             <div
                 key={tab}
                 className={`tab-item ${tab === activeTab ? 'active' : ''}`}
