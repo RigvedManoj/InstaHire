@@ -43,7 +43,7 @@ export const ViewApplicant = () => {
         try{
             // Rest of your code for sending the POST request
             const { data } = await axios.post(
-                'http://localhost:8000/applicant/applications/',
+                'http://localhost:8000/employer/applications/',
                 application,
                 {
                     headers: {'Content-Type': 'application/json'}
@@ -83,7 +83,7 @@ export const ViewApplicant = () => {
         const fetchData = async () => {
             try {
                 const resp = await axios.get(
-                    'http://localhost:8000/applicant/',
+                    'http://localhost:8000/employerViewApplicant/',
                     {
                         headers: {
                             'Content-Type': 'multipart/form-data'

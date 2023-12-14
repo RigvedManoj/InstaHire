@@ -16,28 +16,8 @@ from .serializers import JobSerializer, EmployerSerializer, ApplicantSerializer,
     EmployerUserSerializer
 
 
-class Job_list(APIView):
-    """
-    List all snippets, or create a new snippet.
-    """
-    # permission_classes = [EmployerPermission, IsAuthenticated]
-    permission_classes = [AllowAny]
-
-    def get(self, request, format=None):
-        snippets = Job.objects.all()
-        serializer = JobSerializer(snippets, many=True)
-        return Response(serializer.data)
-
-    def post(self, request, format=None):
-        serializer = JobSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-class Employer_list(APIView):
-    permission_classes = [AllowAny]
+class create_view_employer(APIView):
+    permission_classes = [EmployerPermission, IsAuthenticated]
 
     def get(self, request, format=None):
         params = request.GET.items()
@@ -66,16 +46,20 @@ class Employer_list(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class Applicant_list(APIView):
-    """
-    List all snippets, or create a new snippet.
-    """
-    permission_classes = [IsAuthenticated]
-
-    # permission_classes = [AllowAny]
+class employer_view_applicant(APIView):
+    permission_classes = [EmployerPermission, IsAuthenticated]
 
     def get(self, request, format=None):
-        # snippets = Applicant.objects.all()
+        applicant = request.GET.get('username', '')
+        profile = Applicant.objects.filter(username__iexact=applicant)
+        serializer = ApplicantSerializer(profile, many=True)
+        return Response(serializer.data)
+
+
+class create_view_applicant(APIView):
+    permission_classes = [ApplicantPermission, IsAuthenticated]
+
+    def get(self, request, format=None):
         applicant = request.GET.get('username', '')
         profile = Applicant.objects.filter(username__iexact=applicant)
         serializer = ApplicantSerializer(profile, many=True)
@@ -100,12 +84,26 @@ class Applicant_list(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class Employer_Applications_List(APIView):
-    """
-    List all snippets, or create a new snippet.
-    """
-    # permission_classes = (IsAuthenticated, )
-    permission_classes = [AllowAny]
+class applicant_view_employer(APIView):
+    permission_classes = [ApplicantPermission, IsAuthenticated]
+
+    def get(self, request, format=None):
+        params = request.GET.items()
+        queryset = Employer.objects.all()
+
+        for key, value in params:
+            # queryset = queryset.filter(**{f'{key}__iexact':value})
+            if key == 'username':
+                queryset = queryset.filter(username__iexact=value)
+            if key == 'company_name':
+                queryset = queryset.filter(company_name__iexact=value)
+
+        serializer = EmployerSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+
+class employer_view_applications(APIView):
+    permission_classes = [EmployerPermission, IsAuthenticated]
 
     def get(self, request, format=None):
         employer = request.GET.get('employer_username', '')
@@ -113,13 +111,21 @@ class Employer_Applications_List(APIView):
         serializer = ApplicationSerializer(applications, many=True)
         return Response(serializer.data)
 
+    def post(self, request, format=None):
+        application_id = request.data.get('application_id', None)
+        try:
+            application = Application.objects.get(application_id=application_id)
+            serializer = ApplicationSerializer(application, data=request.data)
+        except Application.DoesNotExist:
+            serializer = ApplicationSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class Applicant_Applications_List(APIView):
-    """
-    List all snippets, or create a new snippet.
-    """
-    # permission_classes = (IsAuthenticated, )
-    permission_classes = [AllowAny]
+
+class applicant_view_applications(APIView):
+    permission_classes = [ApplicantPermission, IsAuthenticated]
 
     def get(self, request, format=None):
         applicant = request.GET.get('applicant_username', '')
@@ -140,10 +146,49 @@ class Applicant_Applications_List(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class Job_list_Detail(APIView):
-    """
-    Retrieve, update or delete a snippet instance.
-    """
+class create_applicant_user(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request, format='json'):
+        serializer = ApplicantUserSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class create_employer_user(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request, *args, **kwargs):
+        serializer = EmployerUserSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'message': 'User registered successfully'}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class employer_create_job(APIView):
+    permission_classes = [EmployerPermission, IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        serializer = JobSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'message': 'Job registered successfully'}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class applicant_view_job(APIView):
+    permission_classes = [ApplicantPermission, IsAuthenticated]
+
+    def get(self, request, format=None):
+        snippets = Job.objects.all()
+        serializer = JobSerializer(snippets, many=True)
+        return Response(serializer.data)
+
+
+class view_jobs(APIView):
     permission_classes = [IsAuthenticated]
 
     def get_object(self, pk):
@@ -156,78 +201,3 @@ class Job_list_Detail(APIView):
         snippet = self.get_object(pk)
         serializer = JobSerializer(snippet)
         return Response(serializer.data)
-
-    def put(self, request, pk, format=None):
-        snippet = self.get_object(pk)
-        serializer = JobSerializer(snippet, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def delete(self, request, pk, format=None):
-        snippet = self.get_object(pk)
-        snippet.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
-
-class ApplicantHomeView(APIView):
-    permission_classes = [ApplicantPermission, IsAuthenticated]
-
-    def get(self, request):
-        content = {'message': 'You have access to this view'}
-        return Response(content)
-
-
-class EmployerHomeView(APIView):
-    permission_classes = [EmployerPermission, IsAuthenticated]
-
-    def get(self, request):
-        content = {'message': 'You have access to this view'}
-        return Response(content)
-
-
-class ApplicantUserCreate(APIView):
-    """
-    Creates the user.
-    """
-    permission_classes = [AllowAny]
-
-    # permission_classes = [ApplicantPermission, IsAuthenticated]
-
-    def post(self, request, format='json'):
-        serializer = ApplicantUserSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-class EmployerUserCreate(APIView):
-    """
-    Creates the user.
-    """
-    permission_classes = [AllowAny]
-
-    # permission_classes = [EmployerPermission, IsAuthenticated]
-
-    def post(self, request, *args, **kwargs):
-        serializer = EmployerUserSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({'message': 'User registered successfully'}, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-class JobCreate(APIView):
-    """
-    Creates the user.
-    """
-    permission_classes = [EmployerPermission, IsAuthenticated]
-
-    def post(self, request, *args, **kwargs):
-        serializer = JobSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({'message': 'Job registered successfully'}, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

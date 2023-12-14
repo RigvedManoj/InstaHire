@@ -58,7 +58,7 @@ export  const JobsList = () => {
 
     const handleApplyClick = async (jobId, jobCompany) => {
         console.log("company", jobCompany)
-        const employerData = await axios.get('http://localhost:8000/employer/', {
+        const employerData = await axios.get('http://localhost:8000/applicantViewEmployer/', {
             headers: {
                 'Content-Type': 'application/json'
             },
