@@ -6,11 +6,11 @@ import './JobsList.css';
 export  const JobsList = () => {
     const applicant = localStorage.getItem("username")
     const [jobsData, setJobsData] = useState([]);
-    const [application, setApplication] = useState({
+    let application = {
         job_id: '',
         applicant_username: '',
         employer_username: '',
-    });
+    }
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('Applications');
 
@@ -43,12 +43,12 @@ export  const JobsList = () => {
                 'company_name': jobCompany
             }
         });
-        const newApplication = {
+        application = {
             job_id: jobId,
             applicant_username: applicant,
             employer_username: employerData.data[0].username,
         }
-        setApplication(newApplication)
+        console.log(application)
         try {
             // Rest of your code for sending the POST request
             const {data} = await axios.post(
