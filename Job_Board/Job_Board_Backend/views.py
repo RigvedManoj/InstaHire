@@ -89,9 +89,9 @@ class Applicant_list(APIView):
             serializer = ApplicantSerializer(data=request.data)
 
         if serializer.is_valid():
-            serializer.save()
             if previous_resume:
                 default_storage.delete(previous_resume.name)
+            serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

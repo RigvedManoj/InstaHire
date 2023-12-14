@@ -25,39 +25,62 @@ export const Signup = () => {
         }
     };
 
+    const [passwordMatch, setPasswordMatch] = useState(true);
+
+    const checkPasswordMatch = (e) => {
+        const  { name, value } = e.target;
+        if (formData.password === value) {
+            setPasswordMatch(true);
+            // Provide feedback to the user that passwords don't match
+            console.log('Passwords do not match. Please check and try again.');
+        }
+        else{
+            setPasswordMatch(false);
+            // Provide feedback to the user that passwords match
+            console.log('Passwords match.');
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            const user = {
-                username: formData.name,
-                password: formData.password,
-                email: formData.email,
+        if (passwordMatch === true){
+            try {
+                const user = {
+                    username: formData.name,
+                    password: formData.password,
+                    email: formData.email,
 
-            };
+                };
 
-            // Rest of your code for sending the POST request
-            debugger;
-            const url = formData.isApplicant
-                ? 'http://localhost:8000/signup/applicant'
-                : formData.isEmployer
-                    ? 'http://localhost:8000/signup/employer'
-                    : 'http://localhost:8000/signup';
+                // Rest of your code for sending the POST request
+                debugger;
+                const url = formData.isApplicant
+                    ? 'http://localhost:8000/signup/applicant'
+                    : formData.isEmployer
+                        ? 'http://localhost:8000/signup/employer'
+                        : 'http://localhost:8000/signup';
 
-            const { data } = await axios.post(
-                url,
-                user,
-                {
-                    headers: {
-                        'Content-Type': 'application/json'
+                const { data } = await axios.post(
+                    url,
+                    user,
+                    {
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
                     }
-                }
-            );
-            debugger;
-            navigate('/');
-        } catch (error) {
-            alert('Oops! Something went wrong. Please check your input parameters and try again :)');
-            return;
+                );
+                debugger;
+                navigate('/');
+            } catch (error) {
+                alert('Oops! Something went wrong. Please check your input parameters and try again :)');
+                return;
+            }
+
         }
+        else {
+            alert('Signup Aborted. Passwords do not match.')
+        }
+
     };
 
     return (
@@ -105,11 +128,14 @@ export const Signup = () => {
                             <input
                                 type="password"
                                 id="password"
-                                name="password"
-                                value={formData.password}
-                                onChange={handleInputChange}
+                                name="confirmPassword"
+                                onChange={checkPasswordMatch}
                                 required
                             />
+                        </div>
+                        <div>
+                            {passwordMatch === false && (
+                                <p style={{ fontSize: '12px', color: 'red'}}>Passwords do not match</p>)}
                         </div>
                         <div className="checkbox-group">
                             <label htmlFor="checkbox1">Employer</label>

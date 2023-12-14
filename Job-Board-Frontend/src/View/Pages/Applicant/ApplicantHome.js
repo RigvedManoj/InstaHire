@@ -21,12 +21,13 @@ export const ApplicantHome = () => {
         country: '',
         resume: null,
     });
+    const [resumeLink, setResumeLink] = useState('');
     const [message, setMessage] = useState('');
 
     const [activeTab, setActiveTab] = useState('Profile');
     const handleTabClick = (tab) => {
       setActiveTab(tab);
-      if (tab === 'Jobs List'){ navigate("/")}
+      if (tab === 'Jobs List'){ navigate("/applicant-jobs-list")}
       if (tab === 'Applications'){ navigate("/applicant-applications")}
 
     };
@@ -48,7 +49,7 @@ export const ApplicantHome = () => {
         e.preventDefault();
         try {
             // Rest of your code for sending the POST request
-
+            console.log("resume:", formData.resume)
             const { data } = await axios.post(
                 'http://localhost:8000/applicant/',
                 formData,
@@ -56,6 +57,34 @@ export const ApplicantHome = () => {
                     headers: {'Content-Type': 'multipart/form-data'}
                 }
             );
+
+            // Do get again from backend to refresh the details after submit
+            try {
+                const resp = await axios.get(
+                    'http://localhost:8000/applicant/',
+                    {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        },
+                        params: {
+                            'username': applicant
+                        }
+                    }
+                );
+
+                if(resp.data.length !== 0){
+                    // Append each field individually
+                    Object.keys(formData).forEach((key) => {
+                        if(key !== 'resume'){
+                            formData[key] = resp.data[0][key];
+                        }
+                    });
+                    setResumeLink("http://localhost:8000/" + resp.data[0].resume);
+                }
+
+
+            } catch (error) {}
+
         }
         catch (error) {
             console.log(error);
@@ -85,9 +114,11 @@ export const ApplicantHome = () => {
                 if(resp.data.length !== 0){
                     // Append each field individually
                     Object.keys(formData).forEach((key) => {
-                        formData[key] = resp.data[0][key];
+                        if(key !== 'resume'){
+                            formData[key] = resp.data[0][key];
+                        }
                     });
-                    setFormData({ ...formData, ['resume']: "http://localhost:8000/" + resp.data[0].resume });
+                    setResumeLink("http://localhost:8000/" + resp.data[0].resume);
                 }
                 console.log(formData.first_name)
 
@@ -110,13 +141,15 @@ export const ApplicantHome = () => {
         const { name, value, type } = e.target;
 
         if (type === 'file') {
-            setFormData({ ...formData, [name]: e.target.files[0] });
+            if (e.target.files[0]) {
+                // Update the state only if a file has been selected
+                setFormData({ ...formData, [name]: e.target.files[0] });
+            }
         } else {
             setFormData({ ...formData, [name]: value });
         }
+        console.log(formData.resume)
     };
-
-
 
     return (
     <div>
@@ -252,17 +285,17 @@ export const ApplicantHome = () => {
                         ></input>
                     </div>
                 </div>
-                {formData.resume?(
+                {resumeLink?(
                     <div>
-
                         <div>
-                            <a href={formData.resume} target="_blank" rel="noopener noreferrer">
+                            <a href={resumeLink} target="_blank" rel="noopener noreferrer">
                                 View last Uploaded Resume
                             </a>
                         </div>
                     </div>
 
                 ):<div/>}
+
                 <div className="form-group">
                     <label htmlFor="file">Upload a File:</label>
                     <input type="file" id="file" name="resume" accept=".pdf,.doc,.docx"
