@@ -7,7 +7,7 @@ import {useNavigate} from "react-router-dom";
 export const Signup = () => {
     const [formData, setFormData] = useState({
         name: '',
-        email: '',
+        // email: '',
         password: '',
         confirmPassword: '',
         isEmployer: false,  // Initial state for the checkboxes
@@ -48,7 +48,6 @@ export const Signup = () => {
                 const user = {
                     username: formData.name,
                     password: formData.password,
-                    email: formData.email,
 
                 };
 
@@ -89,23 +88,12 @@ export const Signup = () => {
                     <h2>Sign Up</h2>
                     <form onSubmit={handleSubmit}>
                         <div className="form-group">
-                            <label htmlFor="name">Name:</label>
+                            <label htmlFor="name">Username:</label>
                             <input
                                 type="text"
                                 id="name"
                                 name="name"
                                 value={formData.name}
-                                onChange={handleInputChange}
-                                required
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="email">Email:</label>
-                            <input
-                                type="email"
-                                id="email"
-                                name="email"
-                                value={formData.email}
                                 onChange={handleInputChange}
                                 required
                             />
