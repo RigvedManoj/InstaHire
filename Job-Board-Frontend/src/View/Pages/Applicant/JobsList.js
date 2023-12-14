@@ -10,7 +10,8 @@ export  const JobsList = () => {
         job_id: '',
         applicant_username: '',
         employer_username: '',
-    }
+    };
+    let applied = {};
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('Applications');
 
@@ -36,6 +37,25 @@ export  const JobsList = () => {
         }
     };
 
+    const checkApplied = async (jobId) => {
+        const applicationsData = await axios.get('http://localhost:8000/applicant/applications/', {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            params: {
+                'applicant_username': applicant
+            }
+        });
+
+        if (applicationsData.data.length !== 0) {
+            applicationsData.data.forEach((app) => {
+                applied[app.job_id] = true;
+            });
+        }
+        console.log("1 in applied:", 1 in applied)
+        console.log("applied:",applied, applicationsData.data)
+    };
+
     const handleApplyClick = async (jobId, jobCompany) => {
         console.log("company", jobCompany)
         const employerData = await axios.get('http://localhost:8000/employer/', {
@@ -51,7 +71,6 @@ export  const JobsList = () => {
             applicant_username: applicant,
             employer_username: employerData.data[0].username,
         }
-        console.log(application)
         try {
             // Rest of your code for sending the POST request
             const {data} = await axios.post(
@@ -66,7 +85,7 @@ export  const JobsList = () => {
             console.log(error)
             alert("Could not apply")
         }
-
+        checkApplied();
     };
 
     useEffect(() => {
@@ -81,8 +100,7 @@ export  const JobsList = () => {
                 if(resp.data.length !== 0){
                     setJobsData(resp.data);
                 }
-                // console.log(resp.data);
-                console.log("jobsdata:", jobsData);
+
             } catch (error) {
                 console.log(error);
                 if (error.response?.status === 403 || error.response?.status === 401) {
@@ -139,8 +157,17 @@ export  const JobsList = () => {
                             <td>{job.min_salary}</td>
                             <td>{job.max_salary}</td>
                             <td>
-                                <button onClick={() => handleApplyClick(job.job_id, job.company)}>Apply</button>
+                                {job.job_id in applied ? (
+                                    <button disabled onClick={() => handleApplyClick(job.job_id, job.company)}>
+                                        Apply
+                                    </button>
+                                ) : (
+                                    <button onClick={() => handleApplyClick(job.job_id, job.company)} disabled={job.job_id in applied}>
+                                        Apply
+                                    </button>
+                                )}
                             </td>
+
                         </tr>))}
                     </tbody>
                 </table>
