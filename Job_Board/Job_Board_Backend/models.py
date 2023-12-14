@@ -4,17 +4,18 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 
-class Job( models.Model ):
-    job_id = models.AutoField( primary_key=True )
-    title = models.CharField( max_length = 150 )
-    company = models.CharField( max_length = 150 )
+class Job(models.Model):
+    job_id = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=150)
+    company = models.CharField(max_length=150)
     description = models.TextField()
-    location = models.CharField( max_length = 150 )
-    listing_date = models.DateTimeField( default = timezone.now )
-    application_deadline = models.DateTimeField( )
-    min_salary = models.DecimalField( max_digits = 8 , decimal_places = 1, null = True, blank = True )
-    max_salary = models.DecimalField( max_digits = 8 , decimal_places = 1, null = True, blank = True )
-    def __str__( self ):
+    location = models.CharField(max_length=150)
+    listing_date = models.DateTimeField(default=timezone.now)
+    application_deadline = models.DateTimeField()
+    min_salary = models.DecimalField(max_digits=8, decimal_places=1, null=True, blank=True)
+    max_salary = models.DecimalField(max_digits=8, decimal_places=1, null=True, blank=True)
+
+    def __str__(self):
         return str(self.job_id)
 
 
@@ -29,12 +30,12 @@ class Applicant(models.Model):
         (OTHER, 'Other'),
     ]
     username = models.CharField(primary_key=True, max_length=100, unique=True)
-    first_name = models.CharField( max_length = 150 )
-    last_name = models.CharField( max_length = 150 )
-    gender = models.CharField( max_length = 10, choices=GENDER_CHOICES)
+    first_name = models.CharField(max_length=150)
+    last_name = models.CharField(max_length=150)
+    gender = models.CharField(max_length=10, choices=GENDER_CHOICES)
     dob = models.DateField()
-    email = models.EmailField( unique = True )
-    phone_number = models.CharField( max_length = 10 )
+    email = models.EmailField(unique=True)
+    phone_number = models.CharField(max_length=10)
     address_line1 = models.TextField()
     address_line2 = models.TextField()
     city = models.CharField(max_length=15)
@@ -46,27 +47,30 @@ class Applicant(models.Model):
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
 
-class Employer( models.Model ):
+
+class Employer(models.Model):
     username = models.CharField(primary_key=True, max_length=100, unique=True)
-    company_name = models.CharField( max_length = 100 )
-    email = models.EmailField( unique = True )
-    phone_number = models.CharField( max_length = 15 )
-    industry = models.CharField( max_length = 100 )
+    company_name = models.CharField(max_length=100)
+    email = models.EmailField(unique=True)
+    phone_number = models.CharField(max_length=15)
+    industry = models.CharField(max_length=100)
     company_description = models.TextField()
     created_at = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return self.company_name
 
-class Application( models.Model ):
-    application_id = models.AutoField( primary_key=True )
-    job_id = models.ForeignKey( Job, on_delete=models.CASCADE )
-    applicant_username = models.ForeignKey( Applicant, on_delete=models.CASCADE )
-    employer_username = models.ForeignKey( Employer, on_delete=models.CASCADE )
-    status = models.CharField( max_length = 15, default="Received" )
 
-    def __str__( self ):
+class Application(models.Model):
+    application_id = models.AutoField(primary_key=True)
+    job_id = models.ForeignKey(Job, on_delete=models.CASCADE)
+    applicant_username = models.ForeignKey(Applicant, on_delete=models.CASCADE)
+    employer_username = models.ForeignKey(Employer, on_delete=models.CASCADE)
+    status = models.CharField(max_length=15, default="Received")
+
+    def __str__(self):
         return str(self.application_id)
+
 
 class UserAbstract(AbstractUser):
     is_applicant = models.BooleanField(default=False)

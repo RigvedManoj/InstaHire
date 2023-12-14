@@ -26,3 +26,4 @@ __pycache__/
 Job_Board/db.sqlite3
 Job_Board/Job_Board_Backend/__pycache__/
 Job_Board/media/*
+Job_Board/Job_Board_Backend/migrations/*_initial.py
