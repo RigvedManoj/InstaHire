@@ -8,7 +8,7 @@ from .models import Job, Applicant, Employer, UserAbstract
 class JobSerializer(serializers.ModelSerializer):
     class Meta:
         model = Job
-        fields = ['title', 'company', 'description', 'location', 'listing_date', 'application_deadline',
+        fields = ['job_id', 'title', 'company', 'description', 'location', 'listing_date', 'application_deadline',
                   'min_salary', 'max_salary']
 
 

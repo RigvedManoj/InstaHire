@@ -40,15 +40,21 @@ class Employer_list(APIView):
     """
     List all snippets, or create a new snippet.
     """
-    permission_classes = [EmployerPermission, IsAuthenticated]
-
-    # permission_classes = [AllowAny]
+    #permission_classes = [EmployerPermission, IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def get(self, request, format=None):
-        # snippets = Employer.objects.all()
-        employer = request.GET.get('username', '')
-        jobs = Employer.objects.filter(username__iexact=employer)
-        serializer = EmployerSerializer(jobs, many=True)
+        params = request.GET.items()
+        queryset = Employer.objects.all()
+
+        for key,value in params:
+            #queryset = queryset.filter(**{f'{key}__iexact':value})
+            if key == 'username':
+                queryset = queryset.filter(username__iexact=value)
+            if key == 'company_name':
+                queryset = queryset.filter(company_name__iexact=value)
+
+        serializer = EmployerSerializer(queryset, many=True)
         return Response(serializer.data)
 
     def post(self, request, format=None):
@@ -102,7 +108,7 @@ class Employer_Applications_List(APIView):
     """
     List all snippets, or create a new snippet.
     """
-    # permission_classes = (IsAuthenticated, )
+    #permission_classes = (IsAuthenticated, )
     permission_classes = [AllowAny]
 
     def get(self, request, format=None):
@@ -111,12 +117,11 @@ class Employer_Applications_List(APIView):
         serializer = ApplicationSerializer(applications, many=True)
         return Response(serializer.data)
 
-
 class Applicant_Applications_List(APIView):
     """
     List all snippets, or create a new snippet.
     """
-    # permission_classes = (IsAuthenticated, )
+    #permission_classes = (IsAuthenticated, )
     permission_classes = [AllowAny]
 
     def get(self, request, format=None):
@@ -124,6 +129,14 @@ class Applicant_Applications_List(APIView):
         applications = Application.objects.filter(applicant_username__exact=applicant)
         serializer = ApplicationSerializer(applications, many=True)
         return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = ApplicationSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 class Job_list_Detail(APIView):

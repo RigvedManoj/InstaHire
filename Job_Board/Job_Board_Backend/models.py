@@ -10,8 +10,8 @@ class Job(models.Model):
     company = models.CharField(max_length=150)
     description = models.TextField()
     location = models.CharField(max_length=150)
-    listing_date = models.DateTimeField(default=timezone.now)
-    application_deadline = models.DateTimeField()
+    listing_date = models.DateField(default=timezone.now().date())
+    application_deadline = models.DateField()
     min_salary = models.DecimalField(max_digits=8, decimal_places=1, null=True, blank=True)
     max_salary = models.DecimalField(max_digits=8, decimal_places=1, null=True, blank=True)
 
@@ -50,7 +50,7 @@ class Applicant(models.Model):
 
 class Employer(models.Model):
     username = models.CharField(primary_key=True, max_length=100, unique=True)
-    company_name = models.CharField(max_length=100)
+    company_name = models.CharField(max_length=100, unique=True)
     email = models.EmailField(unique=True)
     phone_number = models.CharField(max_length=15)
     industry = models.CharField(max_length=100)

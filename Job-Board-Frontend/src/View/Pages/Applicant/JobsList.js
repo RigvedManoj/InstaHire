@@ -1,33 +1,25 @@
-import React, {useEffect, useState} from "react";
-import { useNavigate, Link } from 'react-router-dom';
-import './ApplicantHome.css';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import axios from "axios";
+import './JobsList.css';
 
-export const JobsList = () => {
+export  const JobsList = () => {
     const applicant = localStorage.getItem("username")
-    const [applicationsData, setApplicationsData] = useState({
-        username: applicant,
-        application_id: '',
+    const [jobsData, setJobsData] = useState([]);
+    const [application, setApplication] = useState({
         job_id: '',
         applicant_username: '',
         employer_username: '',
-        status: '',
     });
 
-    // const handleInputChange = (e) => {
-    //
-    // }; ??
-
-    const [message, setMessage] = useState('');
     const navigate = useNavigate();
 
-    const [activeTab, setActiveTab] = useState('Jobs List');
+    const [activeTab, setActiveTab] = useState('Applications');
 
     const handleTabClick = (tab) => {
         setActiveTab(tab);
-        if (tab === 'Profile'){ navigate("/applicant-home")}
         if (tab === 'Applications'){ navigate("/applicant-applications")}
-
+        if (tab === 'Profile'){ navigate("/applicant-home")}
     };
 
     const getSymbolForTab = (tab) => {
@@ -43,88 +35,127 @@ export const JobsList = () => {
         }
     };
 
+    const handleApplyClick = async (jobId, jobCompany) => {
+        console.log("company", jobCompany)
+        const employerData = await axios.get('http://localhost:8000/employer/', {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            params: {
+                'company_name': jobCompany
+            }
+        });
+        setApplication((application) => ({
+            ...application,
+            job_id: jobId,
+        }));
+        setApplication((application) => ({
+            ...application,
+            applicant_username: applicant,
+        }));
+        setApplication((application) => ({
+            ...application,
+            employer_username: employerData.data[0].username,
+        }));
+        console.log(application)
+        try {
+            // Rest of your code for sending the POST request
+            const {data} = await axios.post(
+                'http://localhost:8000/applicant/applications/',
+                application,
+                {
+                    headers: {'Content-Type': 'application/json'}
+                }
+            );
+        }
+        catch (error){
+            console.log(error)
+            alert("Could not apply")
+        }
+
+    };
+
     useEffect(() => {
-        // Function to fetch data from the backend
         const fetchData = async () => {
             try {
-                debugger;
-                const resp = await axios.get(
-                    'http://localhost:8000/applicant/applications/',
-                    {
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        params: {
-                            'username': applicant
-                        }
+                const resp = await axios.get('http://localhost:8000/jobs/', {
+                    headers: {
+                        'Content-Type': 'application/json'
                     }
-                );
-
+                });
+                console.log("response:", resp.data[0].company)
                 if(resp.data.length !== 0){
-                    // Append each field individually
-                    Object.keys(applicationsData).forEach((key) => {
-                        setApplicationsData((prevapplicationsData) => {
-                            console.log(prevapplicationsData);
-                            return { ...prevapplicationsData, [key]: resp.data[0][key] };
-                        });
-                    });
+                    setJobsData(resp.data);
                 }
-
+                // console.log(resp.data);
+                console.log("jobsdata:", jobsData);
             } catch (error) {
                 console.log(error);
-                if(error.response.status === 403 || error.response.status === 401){
-                    navigate('/')
-                }
-                else{
+                if (error.response?.status === 403 || error.response?.status === 401) {
+                    navigate('/');
+                } else {
                     alert('Oops! Something went wrong. Please try again later.');
                 }
             }
         };
 
-        // Call the fetchData function
         fetchData();
-    }, []);
-
-    const handleSubmit = async e => {
-
-    }
+    }, [navigate]);
 
     return (
         <div>
-            <h1>Welcome to the Applicant Applications Page</h1>
-            <h1>Applications List</h1>
-            <table>
-                <thead>
-                <tr>
-                    <th>Application_ID</th>
-                    <th>Job_ID</th>
-                    <th>Employer</th>
-                    <th>Status</th>
-                    {/* Add more headers for other fields */}
-                </tr>
-                </thead>
-                <tbody>
+            <div className="tab-list">
+                {['Profile', 'Jobs List', 'Applications'].map((tab) => (
+                    <div
+                        key={tab}
+                        className={`tab-item ${tab === activeTab ? 'active' : ''}`}
+                        onClick={() => handleTabClick(tab)}
+                    >
+                        <span className="tab-symbol">{getSymbolForTab(tab)}</span>
+                        {tab}
+                    </div>
+                ))}
+            </div>
+            <div className="profile-container">
 
-                {/*applicationsData.map(application => (
-                    <tr key={application.id}>
-                        <td>{application.id}</td>
-                        <td>{application.job_id}</td>
-                        <td>{application.employer_username}</td>
-                        <td>{application.status}</td>
-                        {/* Add more cells for other fields }
+                <h1>Job Listings</h1>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Job ID</th>
+                        <th>Title</th>
+                        <th>Company</th>
+                        <th>Description</th>
+                        <th>Location</th>
+                        <th>Application Deadline</th>
+                        <th>Minimum Salary</th>
+                        <th>Maximum Salary</th>
+                        <th></th>
                     </tr>
-                ))*/}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                    {jobsData.map((job, index) => (
+                        <tr key={job.id}>
+                            <td>{job.job_id}</td>
+                            <td>{job.title}</td>
+                            <td>{job.company}</td>
+                            <td>{job.description}</td>
+                            <td>{job.location}</td>
+                            <td>{job.application_deadline}</td>
+                            <td>{job.min_salary}</td>
+                            <td>{job.max_salary}</td>
+                            <td>
+                                <button onClick={() => handleApplyClick(job.job_id, job.company)}>Apply</button>
+                            </td>
+                        </tr>))}
+                    </tbody>
+                </table>
+
+            </div>
         </div>
+
+
     );
-    // return (
-    //     <div>
-    //         <h1>Welcome to the Applicant Applications Page</h1>
-    //
-    //     </div>
-    //
-    // );
 };
 
 export default JobsList;
