@@ -114,14 +114,14 @@ export const JobCreation = () => {
                         <div className="form-group">
                             <label>
                                 Job Title:
-                                <input type="text" name="title" value={formData.title} onChange={handleInputChange}/>
+                                <input type="text" name="title" value={formData.title} onChange={handleInputChange} required/>
                             </label>
                         </div>
 
                         <div className="form-group">
                             <label>
                                 Company:
-                                <input type="text" name="company" value={formData.company} disabled/>
+                                <input type="text" name="company" value={formData.company} disabled required/>
                             </label>
                         </div>
 
@@ -130,7 +130,7 @@ export const JobCreation = () => {
                                 Job Description:
                                 <br/>
                                 <textarea name="description" cols="30" rows="3" value={formData.description}
-                                          onChange={handleInputChange}></textarea>
+                                          onChange={handleInputChange} required></textarea>
                             </label>
                         </div>
 
@@ -139,7 +139,7 @@ export const JobCreation = () => {
                                 Job Location:
                                 <br/>
                                 <textarea name="location" cols="30" rows="3" value={formData.location}
-                                          onChange={handleInputChange}></textarea>
+                                          onChange={handleInputChange} required></textarea>
                             </label>
                         </div>
 
@@ -147,23 +147,23 @@ export const JobCreation = () => {
                             <label>
                                 Application Deadline:
                                 <input type="date" name="application_deadline" value={formData.application_deadline}
-                                       onChange={handleInputChange}/>
+                                       onChange={handleInputChange} required/>
                             </label>
                         </div>
 
                         <div className="form-group">
                             <label>
                                 Min Salary:
-                                <input type="number" name="min_salary" value={formData.min_salary}
-                                       onChange={handleInputChange}/>
+                                <input type="number" name="min_salary" min="0" value={formData.min_salary}
+                                       onChange={handleInputChange} required/>
                             </label>
                         </div>
 
                         <div className="form-group">
                             <label>
                                 Max Salary:
-                                <input type="number" name="max_salary" value={formData.max_salary}
-                                       onChange={handleInputChange}/>
+                                <input type="number" name="max_salary" min={formData.min_salary} value={formData.max_salary}
+                                       onChange={handleInputChange} required/>
                             </label>
                         </div>
 

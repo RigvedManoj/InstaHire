@@ -21,8 +21,8 @@ export const ApplicantApplications = () => {
 
     const handleTabClick = (tab) => {
         setActiveTab(tab);
+        if (tab === 'Jobs List'){ navigate("/applicant-jobs-list")}
         if (tab === 'Profile'){ navigate("/applicant-home")}
-        if (tab === 'Jobs List'){ navigate("/")}
     };
 
     const getSymbolForTab = (tab) => {

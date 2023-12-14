@@ -51,7 +51,12 @@ class Employer_list(APIView):
         return Response(serializer.data)
 
     def post(self, request, format=None):
-        serializer = EmployerSerializer(data=request.data)
+        employer_name = request.data.get('username', None)
+        try:
+            employer = Employer.objects.get(username=employer_name)
+            serializer = EmployerSerializer(employer, data=request.data)
+        except Applicant.DoesNotExist:
+            serializer = EmployerSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -73,9 +78,10 @@ class Applicant_list(APIView):
         return Response(serializer.data)
 
     def post(self, request, format=None):
-        applicant = request.data.get('username', None)
+        applicant_name = request.data.get('username', None)
+        previous_resume = None
         try:
-            applicant = Applicant.objects.get(username=applicant)
+            applicant = Applicant.objects.get(username=applicant_name)
             # Get the previous resume file
             previous_resume = applicant.resume
             serializer = ApplicantSerializer(applicant, data=request.data)
@@ -83,9 +89,9 @@ class Applicant_list(APIView):
             serializer = ApplicantSerializer(data=request.data)
 
         if serializer.is_valid():
-            serializer.save()
             if previous_resume:
                 default_storage.delete(previous_resume.name)
+            serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
