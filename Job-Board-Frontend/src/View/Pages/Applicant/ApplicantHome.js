@@ -260,23 +260,15 @@ export const ApplicantHome = () => {
                                 View last Uploaded Resume
                             </a>
                         </div>
-
-                        <div className="form-group">
-                            <label htmlFor="file">Upload a File:</label>
-                            <input type="file" id="file" name="resume" accept=".pdf,.doc,.docx"
-                                   onChange={handleInputChange}
-                                   required/>
-                        </div>
                     </div>
 
-                ):( // Display button for uploading a resume
-                    <div className="form-group">
-                        <label htmlFor="file">Upload a File:</label>
-                        <input type="file" id="file" name="resume" accept=".pdf,.doc,.docx"
-                               onChange={handleInputChange}
-                               required/>
-                    </div>
-                )}
+                ):<div/>}
+                <div className="form-group">
+                    <label htmlFor="file">Upload a File:</label>
+                    <input type="file" id="file" name="resume" accept=".pdf,.doc,.docx"
+                           onChange={handleInputChange}
+                           required/>
+                </div>
                 <div className="form-actions">
                     <button type="submit">Save Profile</button>
                 </div>
