@@ -1,0 +1,39 @@
+.button-container {
+    display: flex;
+    justify-content: space-around; /* Adjust as needed (space-between, space-evenly, etc.) */
+}
+
+.button-like-div {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+/* Hover effect */
+.button-like-div:hover {
+    background-color: #004080; /* Darker button color on hover */
+}
+
+.fancy-link {
+    display: inline-block;
+    padding: 10px 15px;
+    color: #3498db; /* Link color */
+    text-decoration: none;
+    border-radius: 5px;
+    background-color: #fff; /* Background color */
+    border: 2px solid #3498db; /* Border color */
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition effect */
+}
+
+/* Hover effect */
+.fancy-link:hover {
+    background-color: #3498db; /* Background color on hover */
+    color: #fff; /* Text color on hover */
+}

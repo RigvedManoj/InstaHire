@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import './ViewApplicant.css';
 import {useNavigate} from "react-router-dom";
 
 export const ViewApplicant = () => {
@@ -249,20 +250,16 @@ export const ViewApplicant = () => {
                     {resumeLink?(
                         <div>
                             <div>
-                                <a href={resumeLink} target="_blank" rel="noopener noreferrer">
+                                <a href={resumeLink} className="fancy-link" target="_blank" rel="noopener noreferrer">
                                     View last Uploaded Resume
                                 </a>
                             </div>
                         </div>
 
                     ):<div/>}
-                    <div className="row">
-                        <div >
-                            <button onClick={() => handleStatus('Accepted')} >Accept</button>
-                        </div>
-                        <div >
-                            <button onClick={() => handleStatus('Rejected')}>Reject</button>
-                        </div>
+                    <div className="button-container">
+                        <div className="button-like-div" onClick={() => handleStatus('Accepted')} >Accept</div>
+                        <div className="button-like-div" onClick={() => handleStatus('Rejected')}>Reject</div>
                     </div>
                 </form>
 
