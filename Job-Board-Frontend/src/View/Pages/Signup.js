@@ -53,7 +53,6 @@ export const Signup = () => {
                 };
 
                 // Rest of your code for sending the POST request
-                debugger;
                 const url = formData.isApplicant
                     ? 'http://localhost:8000/signup/applicant'
                     : formData.isEmployer
@@ -69,7 +68,6 @@ export const Signup = () => {
                         }
                     }
                 );
-                debugger;
                 navigate('/');
             } catch (error) {
                 alert('Oops! Something went wrong. Please check your input parameters and try again :)');
@@ -164,5 +162,3 @@ export const Signup = () => {
         </div>
     );
 };
-
-export default Signup;

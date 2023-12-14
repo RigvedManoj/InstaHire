@@ -13,8 +13,8 @@ export const EmployerHome = () => {
     industry: '',
     company_description: '',
   });
-  const [message, setMessage] = useState('');
   const [activeTab, setActiveTab] = useState('Profile');
+
   const handleTabClick = (tab) => {
     setActiveTab(tab);
     if (tab === 'Create Job'){ navigate("/job-creation")}
@@ -39,7 +39,6 @@ export const EmployerHome = () => {
     // Function to fetch data from the backend
     const fetchData = async () => {
       try {
-        debugger;
         const resp = await axios.get(
             'http://localhost:8000/employer/',
             {

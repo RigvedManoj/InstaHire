@@ -11,9 +11,7 @@ export  const JobsList = () => {
         applicant_username: '',
         employer_username: '',
     });
-
     const navigate = useNavigate();
-
     const [activeTab, setActiveTab] = useState('Applications');
 
     const handleTabClick = (tab) => {
@@ -45,19 +43,12 @@ export  const JobsList = () => {
                 'company_name': jobCompany
             }
         });
-        setApplication((application) => ({
-            ...application,
+        const newApplication = {
             job_id: jobId,
-        }));
-        setApplication((application) => ({
-            ...application,
             applicant_username: applicant,
-        }));
-        setApplication((application) => ({
-            ...application,
             employer_username: employerData.data[0].username,
-        }));
-        console.log(application)
+        }
+        setApplication(newApplication)
         try {
             // Rest of your code for sending the POST request
             const {data} = await axios.post(
@@ -157,5 +148,3 @@ export  const JobsList = () => {
 
     );
 };
-
-export default JobsList;

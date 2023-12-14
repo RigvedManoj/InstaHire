@@ -16,6 +16,7 @@ export const JobCreation = () => {
         max_salary: '',
     });
     const [activeTab, setActiveTab] = useState('Create Job');
+
     const handleTabClick = (tab) => {
         setActiveTab(tab);
         if (tab === 'Profile'){ navigate("/employer-home")}
@@ -34,6 +35,7 @@ export const JobCreation = () => {
                 return '';
         }
     };
+
     useEffect(() => {
         // Function to fetch data from the backend
         const fetchData = async () => {
@@ -64,15 +66,16 @@ export const JobCreation = () => {
         // Call the fetchData function
         fetchData();
     }, []);
+
     const handleInputChange = (e) => {
         const {name, value} = e.target;
         setFormData({...formData, [name]: value});
 
     };
+
     const handleSubmit = async e => {
         console.log(formData)
         e.preventDefault();
-        debugger;
         let data;
         try {
             const resp = await axios.post(
@@ -90,9 +93,9 @@ export const JobCreation = () => {
             return;
         }
 
-        debugger;
         navigate('/employer-home');
     }
+
     return (
         <div>
             <div className="tab-list">
@@ -177,6 +180,4 @@ export const JobCreation = () => {
         </div>
     );
 };
-
-export default JobCreation;
 

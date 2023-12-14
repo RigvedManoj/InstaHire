@@ -22,8 +22,6 @@ export const ApplicantHome = () => {
         resume: null,
     });
     const [resumeLink, setResumeLink] = useState('');
-    const [message, setMessage] = useState('');
-
     const [activeTab, setActiveTab] = useState('Profile');
     const handleTabClick = (tab) => {
       setActiveTab(tab);
@@ -313,5 +311,3 @@ export const ApplicantHome = () => {
 
     );
 };
-
-export default ApplicantHome;

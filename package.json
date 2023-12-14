@@ -1,8 +1,0 @@
-{
-  "dependencies": {
-    "material-react-table": "^2.0.5",
-    "mdb-react-ui-kit": "^7.0.0",
-    "rsuite": "^5.47.0",
-    "rsuite-table": "^5.18.2"
-  }
-}

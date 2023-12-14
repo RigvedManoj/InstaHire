@@ -21,8 +21,8 @@ export const ViewApplicant = () => {
         resume: null,
     });
     const [resumeLink, setResumeLink] = useState('');
-
     const [activeTab, setActiveTab] = useState('Profile');
+
     const handleTabClick = (tab) => {
         if (tab === 'Profile'){ navigate("/employer-home")}
         if (tab === 'Create Job'){ navigate("/job-creation")}
@@ -47,6 +47,11 @@ export const ViewApplicant = () => {
                     headers: {'Content-Type': 'application/json'}
                 }
             );
+            /*localStorage.removeItem('applicant_username');
+            localStorage.removeItem('employer_username');
+            localStorage.removeItem('job_id');
+            localStorage.removeItem('application_id');*/
+            navigate('/employer-applications')
         }
         catch (error) {
             console.log(error);
@@ -55,6 +60,7 @@ export const ViewApplicant = () => {
         }
 
     };
+
     const getSymbolForTab = (tab) => {
         switch (tab) {
             case 'Profile':
@@ -252,10 +258,10 @@ export const ViewApplicant = () => {
                     ):<div/>}
                     <div className="row">
                         <div >
-                            <div onClick={() => handleStatus('Accepted')} >Accept</div>
+                            <button onClick={() => handleStatus('Accepted')} >Accept</button>
                         </div>
                         <div >
-                            <div onClick={() => handleStatus('Rejected')}>Reject</div>
+                            <button onClick={() => handleStatus('Rejected')}>Reject</button>
                         </div>
                     </div>
                 </form>

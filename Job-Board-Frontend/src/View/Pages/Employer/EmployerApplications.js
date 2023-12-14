@@ -5,19 +5,9 @@ import axios from "axios";
 
 export const EmployerApplications = () => {
     const employer = localStorage.getItem("username")
-    // const [applicationsData, setApplicationsData] = useState({
-    //     employer_username: employer,
-    //     application_id: '',
-    //     job_id: '',
-    //     employer_username: '',
-    //     status: ''
-    // });
     const [applicationsData, setApplicationsData] = useState([]);
     const [jobsData, setJobsData] = useState([]);
-
-    const [message, setMessage] = useState('');
     const navigate = useNavigate();
-
     const [activeTab, setActiveTab] = useState('Applications');
 
     const handleTabClick = (tab) => {
@@ -38,18 +28,19 @@ export const EmployerApplications = () => {
         }
     };
     const handleRowClick = (application) => {
-        localStorage.setItem('applicant_username', application.applicant_username);
-        localStorage.setItem('employer_username', application.employer_username);
-        localStorage.setItem('application_id', application.application_id);
-        localStorage.setItem('job_id', application.job_id);
-        navigate("/view_applicant")
+        if(application.status === 'Received'){
+            localStorage.setItem('applicant_username', application.applicant_username);
+            localStorage.setItem('employer_username', application.employer_username);
+            localStorage.setItem('application_id', application.application_id);
+            localStorage.setItem('job_id', application.job_id);
+            navigate("/view_applicant")
+        }
         // You can perform additional actions here based on the clicked row
     };
     useEffect(() => {
         // Function to fetch data from the backend
         const fetchData = async () => {
             try {
-                debugger;
                 const resp = await axios.get(
                     'http://localhost:8000/employer/applications/',
                     {
@@ -61,17 +52,8 @@ export const EmployerApplications = () => {
                         }
                     }
                 );
-
-                // console.log("hi")
-                // console.log(resp.data);
+;
                 if(resp.data.length !== 0){
-                    // Append each field individually
-                    // Object.keys(applicationsData).forEach((key) => {
-                    //     setApplicationsData((prevapplicationsData) => {
-                    //         // console.log(prevapplicationsData);
-                    //         return { ...prevapplicationsData, [key]: resp.data[0][key] };
-                    //     });
-                    // });
                     setApplicationsData(resp.data);
 
                     const jobsPromises = resp.data.map(async (application) => {
@@ -84,9 +66,7 @@ export const EmployerApplications = () => {
                     const jobsData = await Promise.all(jobsPromises);
                     setJobsData(jobsData);
                 }
-                // console.log(resp.data);
                 console.log(applicationsData);
-
 
             } catch (error) {
                 console.log(error);
@@ -147,5 +127,3 @@ export const EmployerApplications = () => {
     );
 
 };
-
-export default EmployerApplications;

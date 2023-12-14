@@ -5,19 +5,9 @@ import axios from "axios";
 
 export const ApplicantApplications = () => {
     const applicant = localStorage.getItem("username")
-    // const [applicationsData, setApplicationsData] = useState({
-    //     applicant_username: applicant,
-    //     application_id: '',
-    //     job_id: '',
-    //     employer_username: '',
-    //     status: ''
-    // });
     const [applicationsData, setApplicationsData] = useState([]);
     const [jobsData, setJobsData] = useState([]);
-
-    const [message, setMessage] = useState('');
     const navigate = useNavigate();
-
     const [activeTab, setActiveTab] = useState('Applications');
 
     const handleTabClick = (tab) => {
@@ -43,7 +33,6 @@ export const ApplicantApplications = () => {
         // Function to fetch data from the backend
         const fetchData = async () => {
             try {
-                debugger;
                 const resp = await axios.get(
                     'http://localhost:8000/applicant/applications/',
                     {
@@ -56,16 +45,7 @@ export const ApplicantApplications = () => {
                     }
                 );
 
-                // console.log("hi")
-                // console.log(resp.data);
                 if(resp.data.length !== 0){
-                    // Append each field individually
-                    // Object.keys(applicationsData).forEach((key) => {
-                    //     setApplicationsData((prevapplicationsData) => {
-                    //         // console.log(prevapplicationsData);
-                    //         return { ...prevapplicationsData, [key]: resp.data[0][key] };
-                    //     });
-                    // });
                     setApplicationsData(resp.data);
                     console.log(resp)
 
@@ -79,7 +59,6 @@ export const ApplicantApplications = () => {
                     const jobsData = await Promise.all(jobsPromises);
                     setJobsData(jobsData);
                 }
-                // console.log(resp.data);
                 console.log(applicationsData);
 
 
@@ -142,5 +121,3 @@ export const ApplicantApplications = () => {
     );
 
 };
-
-export default ApplicantApplications;

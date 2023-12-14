@@ -28,7 +28,6 @@ export const Login = () => {
             password: formData.password
            };
       // Create the POST request
-      debugger;
 
       let data;
       try {
@@ -43,12 +42,10 @@ export const Login = () => {
       );
       data = resp.data;
     } catch (error) {
-        alert('Oops! Something went wrong. Please try again later.');
+        alert('Incorrect Username or Password, Please try again.');
         return;
     }
 
-
-      debugger;
 
      // Initialize the access & refresh token in localstorage.      
      localStorage.clear();
@@ -114,5 +111,3 @@ export const Login = () => {
         </div>
     );
 };
-
-export default Login;
