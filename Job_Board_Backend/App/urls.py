@@ -1,4 +1,4 @@
-from Job_Board_Backend import views
+from App import views
 from django.urls import path
 from rest_framework_simplejwt import views as jwt_views
 from django.conf import settings

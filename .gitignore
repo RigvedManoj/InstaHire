@@ -23,7 +23,7 @@ __pycache__/
 *.pyd
 
 #ignore Database
-Job_Board/db.sqlite3
-Job_Board/Job_Board_Backend/__pycache__/
-Job_Board/media/*
-Job_Board/Job_Board_Backend/migrations/*_initial.py
+Job_Board_Backend/db.sqlite3
+Job_Board_Backend/App/__pycache__/
+Job_Board_Backend/media/*
+Job_Board_Backend/App/migrations/*_initial.py
