@@ -13,6 +13,7 @@ export const EmployerApplications = () => {
     //     status: ''
     // });
     const [applicationsData, setApplicationsData] = useState([]);
+    const [jobsData, setJobsData] = useState([]);
 
     const [message, setMessage] = useState('');
     const navigate = useNavigate();
@@ -66,6 +67,16 @@ export const EmployerApplications = () => {
                     //     });
                     // });
                     setApplicationsData(resp.data);
+
+                    const jobsPromises = resp.data.map(async (application) => {
+                        const jobResp = await axios.get(
+                            `http://localhost:8000/jobs/${application.job_id}`
+                        );
+                        return jobResp.data;
+                    });
+
+                    const jobsData = await Promise.all(jobsPromises);
+                    setJobsData(jobsData);
                 }
                 // console.log(resp.data);
                 console.log(applicationsData);
@@ -111,15 +122,17 @@ export const EmployerApplications = () => {
                         <th>Application_ID</th>
                         <th>Job_ID</th>
                         <th>Applicant</th>
+                        <th>Job Title</th>
                         <th>Status</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {applicationsData.map(application => (
+                    {applicationsData.map((application,index) => (
                         <tr key={application.id}>
                             <td>{application.application_id}</td>
                             <td>{application.job_id}</td>
                             <td>{application.applicant_username}</td>
+                            <td>{jobsData[index] && jobsData[index].title}</td>
                             <td>{application.status}</td>
 
                         </tr>))}
