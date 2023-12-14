@@ -68,7 +68,7 @@ class Applicant_list(APIView):
     """
     List all snippets, or create a new snippet.
     """
-    permission_classes = [ApplicantPermission, IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     # permission_classes = [AllowAny]
 

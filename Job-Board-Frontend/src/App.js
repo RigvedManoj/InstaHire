@@ -9,6 +9,7 @@ import {ApplicantHome} from './View/Pages/Applicant/ApplicantHome';
 import {ApplicantApplications} from './View/Pages/Applicant/ApplicantApplications';
 import EmployerApplications from "./View/Pages/Employer/EmployerApplications";
 import {JobsList} from './View/Pages/Applicant/JobsList';
+import {ViewApplicant} from "./View/Pages/Employer/ViewApplicant";
 
 
 // App.js
@@ -26,6 +27,7 @@ const App = () => {
           <Route path="/applicant-applications" element={<ApplicantApplications/>}/>
           <Route path="/employer-applications" element={<EmployerApplications/>}/>
           <Route path="/applicant-jobs-list" element={<JobsList/>}/>
+          <Route path="/view_applicant" element={<ViewApplicant/>}/>
         </Routes>
       </BrowserRouter>
     );

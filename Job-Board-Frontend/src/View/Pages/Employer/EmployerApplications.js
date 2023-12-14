@@ -23,9 +23,8 @@ export const EmployerApplications = () => {
     const handleTabClick = (tab) => {
         setActiveTab(tab);
         if (tab === 'Profile'){ navigate("/employer-home")}
-        if (tab === 'Jobs List'){ navigate("/")}
+        if (tab === 'Create Job'){ navigate("/job-creation")}
     };
-
     const getSymbolForTab = (tab) => {
         switch (tab) {
             case 'Profile':
@@ -38,7 +37,11 @@ export const EmployerApplications = () => {
                 return '';
         }
     };
-
+    const handleRowClick = (username) => {
+        localStorage.setItem('applicant', username);
+        navigate("/view_applicant")
+        // You can perform additional actions here based on the clicked row
+    };
     useEffect(() => {
         // Function to fetch data from the backend
         const fetchData = async () => {
@@ -100,7 +103,7 @@ export const EmployerApplications = () => {
     return (
         <div>
             <div className="tab-list">
-                {['Profile', 'Jobs List', 'Applications'].map((tab) => (
+                {['Profile', 'Create Job', 'Applications'].map((tab) => (
                     <div
                         key={tab}
                         className={`tab-item ${tab === activeTab ? 'active' : ''}`}
@@ -125,7 +128,7 @@ export const EmployerApplications = () => {
                     </thead>
                     <tbody>
                     {applicationsData.map((application,index) => (
-                        <tr key={application.id}>
+                        <tr key={application.id} onClick={() => handleRowClick(application.applicant_username)}>
                             <td>{application.application_id}</td>
                             <td>{application.job_id}</td>
                             <td>{jobsData[index] && jobsData[index].title}</td>

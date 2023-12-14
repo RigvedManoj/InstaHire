@@ -19,7 +19,7 @@ export const JobCreation = () => {
     const handleTabClick = (tab) => {
         setActiveTab(tab);
         if (tab === 'Profile'){ navigate("/employer-home")}
-        if (tab === 'Applications'){ navigate("/")}
+        if (tab === 'Applications'){ navigate("/employer-applications")}
 
     };
     const getSymbolForTab = (tab) => {
