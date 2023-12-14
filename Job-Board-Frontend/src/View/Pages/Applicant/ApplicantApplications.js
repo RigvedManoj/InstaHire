@@ -1,6 +1,6 @@
 import React, {useEffect, useState, useMemo } from "react";
 import { useNavigate, Link } from 'react-router-dom';
-// import './ApplicantHome.css';
+import './ApplicantApplications.css';
 import axios from "axios";
 
 export const ApplicantApplications = () => {
@@ -13,6 +13,7 @@ export const ApplicantApplications = () => {
     //     status: ''
     // });
     const [applicationsData, setApplicationsData] = useState([]);
+    const [jobsData, setJobsData] = useState([]);
 
     const [message, setMessage] = useState('');
     const navigate = useNavigate();
@@ -66,6 +67,17 @@ export const ApplicantApplications = () => {
                     //     });
                     // });
                     setApplicationsData(resp.data);
+                    console.log(resp)
+
+                    const jobsPromises = resp.data.map(async (application) => {
+                        const jobResp = await axios.get(
+                            `http://localhost:8000/jobs/${application.job_id}`
+                        );
+                        return jobResp.data;
+                    });
+
+                    const jobsData = await Promise.all(jobsPromises);
+                    setJobsData(jobsData);
                 }
                 // console.log(resp.data);
                 console.log(applicationsData);
@@ -101,24 +113,23 @@ export const ApplicantApplications = () => {
                 ))}
             </div>
             <div className="profile-container">
-
-                <h1>Welcome to the Applicant Applications Page</h1>
-
                 <h1>Applications List</h1>
                 <table>
                     <thead>
                     <tr>
                         <th>Application_ID</th>
                         <th>Job_ID</th>
+                        <th>Job Title</th>
                         <th>Employer</th>
                         <th>Status</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {applicationsData.map(application => (
+                    {applicationsData.map((application,index) => (
                         <tr key={application.id}>
                             <td>{application.application_id}</td>
                             <td>{application.job_id}</td>
+                            <td>{jobsData[index] && jobsData[index].title}</td>
                             <td>{application.employer_username}</td>
                             <td>{application.status}</td>
 

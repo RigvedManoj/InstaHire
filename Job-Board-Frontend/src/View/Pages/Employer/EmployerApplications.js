@@ -112,17 +112,14 @@ export const EmployerApplications = () => {
                 ))}
             </div>
             <div className="profile-container">
-
-                <h1>Welcome to the Employer Applications Page</h1>
-
                 <h1>Applications List</h1>
                 <table>
                     <thead>
                     <tr>
                         <th>Application_ID</th>
                         <th>Job_ID</th>
-                        <th>Applicant</th>
                         <th>Job Title</th>
+                        <th>Applicant</th>
                         <th>Status</th>
                     </tr>
                     </thead>
@@ -131,8 +128,8 @@ export const EmployerApplications = () => {
                         <tr key={application.id}>
                             <td>{application.application_id}</td>
                             <td>{application.job_id}</td>
-                            <td>{application.applicant_username}</td>
                             <td>{jobsData[index] && jobsData[index].title}</td>
+                            <td>{application.applicant_username}</td>
                             <td>{application.status}</td>
 
                         </tr>))}

@@ -104,15 +104,16 @@ export const JobsList = () => {
                 </tr>
                 </thead>
                 <tbody>
-                {applicationsData.map(application => (
+
+                {/*applicationsData.map(application => (
                     <tr key={application.id}>
                         <td>{application.id}</td>
                         <td>{application.job_id}</td>
                         <td>{application.employer_username}</td>
                         <td>{application.status}</td>
-                        {/* Add more cells for other fields */}
+                        {/* Add more cells for other fields }
                     </tr>
-                ))}
+                ))*/}
                 </tbody>
             </table>
         </div>
