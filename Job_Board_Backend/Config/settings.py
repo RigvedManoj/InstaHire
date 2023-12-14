@@ -28,7 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-AUTH_USER_MODEL = 'Job_Board_Backend.UserAbstract'
+AUTH_USER_MODEL = 'App.UserAbstract'
 
 # Application definition
 
@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'Job_Board_Backend',
+    'App',
     'corsheaders',
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist'
@@ -58,7 +58,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'Job_Board.urls'
+ROOT_URLCONF = 'Config.urls'
 
 TEMPLATES = [
     {
@@ -76,7 +76,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'Job_Board.wsgi.application'
+WSGI_APPLICATION = 'Config.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
