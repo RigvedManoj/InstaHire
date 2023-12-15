@@ -96,7 +96,6 @@ export  const JobsList = () => {
                         'Content-Type': 'application/json'
                     }
                 });
-                console.log("response:", resp.data[0].company)
                 if(resp.data.length !== 0){
                     setJobsData(resp.data);
                 }

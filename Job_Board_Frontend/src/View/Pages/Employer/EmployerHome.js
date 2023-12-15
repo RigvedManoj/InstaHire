@@ -5,6 +5,7 @@ import {useNavigate} from "react-router-dom";
 export const EmployerHome = () => {
   const navigate = useNavigate();
   const employer = localStorage.getItem("username");
+  const [profileComplete, setProfileComplete] = useState(false);
   const [formData, setFormData] = useState({
     username: employer,
     company_name: '',
@@ -16,11 +17,21 @@ export const EmployerHome = () => {
   const [activeTab, setActiveTab] = useState('Profile');
 
   const handleTabClick = (tab) => {
-    setActiveTab(tab);
-    if (tab === 'Create Job'){ navigate("/job-creation")}
-    if (tab === 'Applications'){ navigate("/employer-applications")}
     if (tab === 'Logout'){ navigate("/logout")}
-
+    else {
+      console.log(profileComplete)
+      if (profileComplete) {
+        setActiveTab(tab);
+        if (tab === 'Create Job') {
+          navigate("/job-creation")
+        }
+        if (tab === 'Applications') {
+          navigate("/employer-applications")
+        }
+      } else {
+        alert("Please fill the profile before moving to other tabs.");
+      }
+    }
   };
 
   const getSymbolForTab = (tab) => {
@@ -61,13 +72,14 @@ export const EmployerHome = () => {
               return { ...prevFormData, [key]: resp.data[0][key] };
             });
           });
+          setProfileComplete(true)
         }
 
 
       } catch (error) {
         console.log(error);
         if(error.response.status === 403 || error.response.status === 401){
-          //navigate('/')
+          navigate('/')
         }
         else{
           alert('Oops! Something went wrong. Please try again later.');
@@ -96,6 +108,7 @@ export const EmployerHome = () => {
             headers: {'Content-Type': 'application/json'}
           }
       );
+      setProfileComplete(true)
     }
     catch (error) {
       console.log(error);

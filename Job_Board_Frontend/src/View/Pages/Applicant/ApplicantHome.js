@@ -6,6 +6,7 @@ import {useNavigate} from "react-router-dom";
 export const ApplicantHome = () => {
     const navigate = useNavigate();
     const applicant = localStorage.getItem("username")
+    const [profileComplete, setProfileComplete] = useState(false);
     const [formData, setFormData] = useState({
         username: applicant,
         first_name: '',
@@ -24,11 +25,21 @@ export const ApplicantHome = () => {
     const [resumeLink, setResumeLink] = useState('');
     const [activeTab, setActiveTab] = useState('Profile');
     const handleTabClick = (tab) => {
-      setActiveTab(tab);
-      if (tab === 'Jobs List'){ navigate("/applicant-jobs-list")}
-      if (tab === 'Applications'){ navigate("/applicant-applications")}
-      if (tab === 'Logout'){ navigate("/logout")}
-
+        if (tab === 'Logout'){ navigate("/logout")}
+        else {
+            console.log(profileComplete)
+            if (profileComplete) {
+                setActiveTab(tab);
+                if (tab === 'Jobs List') {
+                    navigate("/applicant-jobs-list")
+                }
+                if (tab === 'Applications') {
+                    navigate("/applicant-applications")
+                }
+            } else {
+                alert("Please fill the profile before moving to other tabs.");
+            }
+        }
     };
 
     const getSymbolForTab = (tab) => {
@@ -81,6 +92,7 @@ export const ApplicantHome = () => {
                         }
                     });
                     setResumeLink("http://localhost:8000/" + resp.data[0].resume);
+                    setProfileComplete(true)
                 }
 
 
@@ -120,6 +132,7 @@ export const ApplicantHome = () => {
                         }
                     });
                     setResumeLink("http://localhost:8000/" + resp.data[0].resume);
+                    setProfileComplete(true);
                 }
                 console.log(formData.first_name)
 
