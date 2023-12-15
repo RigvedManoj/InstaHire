@@ -16,7 +16,7 @@ This Job Board platform is developed by team SKAR:
     <li> Anju Santhosh Kumar (anjus1313, asanthoshkum@umass.edu)
     <li> Karthik Swaroop Suresh (KarthikSz, karthikswaro@umass.edu)
     <li> Rigved Manoj (RigvedManoj, rmanoj@umass.edu)
-    <li> Sachin Thomas (sachint2001, rmanoj@umass.edu)
+    <li> Sachin Thomas (sachint2001, sachinthomas@umass.edu)
 </ul>
 
 # Setting up the environment
