@@ -6,6 +6,9 @@ from .models import Job, Applicant, Employer, UserAbstract
 
 
 class JobSerializer(serializers.ModelSerializer):
+    """
+    Serializer for Job Model
+    """
     class Meta:
         model = Job
         fields = ['job_id', 'title', 'company', 'description', 'location', 'listing_date', 'application_deadline',
@@ -13,6 +16,9 @@ class JobSerializer(serializers.ModelSerializer):
 
 
 class ApplicantSerializer(serializers.ModelSerializer):
+    """
+    Serializer for Applicant Model
+    """
     class Meta:
         model = Applicant
         fields = ['username', 'first_name', 'last_name', 'gender', 'dob', 'email', 'phone_number', 'address_line1',
@@ -21,6 +27,9 @@ class ApplicantSerializer(serializers.ModelSerializer):
 
 
 class EmployerSerializer(serializers.ModelSerializer):
+    """
+    Serializer for Employer Model
+    """
     class Meta:
         model = Employer
         fields = ['username', 'company_name', 'email', 'phone_number', 'industry', 'company_description',
@@ -29,12 +38,18 @@ class EmployerSerializer(serializers.ModelSerializer):
 
 
 class ApplicationSerializer( serializers.ModelSerializer ):
+    """
+    Serializer for Application Model
+    """
     class Meta:
         model = Application
         fields = [ 'application_id', 'job_id', 'applicant_username', 'employer_username', 'status'  ]
 
 
 class ApplicantUserSerializer(serializers.ModelSerializer):
+    """
+    Serializer for Applicant User Model
+    """
     password = serializers.CharField(write_only=True, style={'input_type': 'password'})
 
     class Meta:
@@ -48,6 +63,9 @@ class ApplicantUserSerializer(serializers.ModelSerializer):
 
 
 class EmployerUserSerializer(serializers.ModelSerializer):
+    """
+    Serializer for Employer User Model
+    """
     password = serializers.CharField(write_only=True, style={'input_type': 'password'})
 
     class Meta:

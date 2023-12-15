@@ -5,6 +5,9 @@ from django.utils.translation import gettext_lazy as _
 
 
 class Job(models.Model):
+    """
+    Store attributes related to Job
+    """
     job_id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=150)
     company = models.CharField(max_length=150)
@@ -20,6 +23,9 @@ class Job(models.Model):
 
 
 class Applicant(models.Model):
+    """
+    Store attributes related to Applicant
+    """
     MALE = 'male'
     FEMALE = 'female'
     OTHER = 'other'
@@ -49,6 +55,9 @@ class Applicant(models.Model):
 
 
 class Employer(models.Model):
+    """
+    Store attributes related to Employer
+    """
     username = models.CharField(primary_key=True, max_length=100, unique=True)
     company_name = models.CharField(max_length=100, unique=True)
     email = models.EmailField(unique=True)
@@ -62,6 +71,9 @@ class Employer(models.Model):
 
 
 class Application(models.Model):
+    """
+    Store attributes related to Application
+    """
     application_id = models.AutoField(primary_key=True)
     job_id = models.ForeignKey(Job, on_delete=models.CASCADE)
     applicant_username = models.ForeignKey(Applicant, on_delete=models.CASCADE)
@@ -73,6 +85,9 @@ class Application(models.Model):
 
 
 class UserAbstract(AbstractUser):
+    """
+    Model created to setup Users
+    """
     is_applicant = models.BooleanField(default=False)
     is_employer = models.BooleanField(default=False)
 
