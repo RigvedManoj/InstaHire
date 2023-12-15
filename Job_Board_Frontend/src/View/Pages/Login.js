@@ -1,3 +1,7 @@
+/*Login.js contains logic for logging in both an employer and an applicant.
+Username and Password is checked against backend database and authenticated.
+This page routes to employerHome or applicantHome depending on the user.*/
+
 import React, {useState} from "react";
 import { useNavigate, Link } from 'react-router-dom';
 import './Login.css';

@@ -1,3 +1,7 @@
+/* This file contains the logic for retrieving all available jobs from backend. Each job can be applied in one click.
+A new application with job id and applicant id is posted to backend.
+This file can navigate to applicant home and jobs list.*/
+
 import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";

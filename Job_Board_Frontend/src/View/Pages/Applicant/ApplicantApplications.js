@@ -1,3 +1,7 @@
+/* This file contains the logic for viewing all applications created by the applicant.
+List of application information is fetched from backend matching applicant id.
+This file can navigate to applicant home and jobs list.*/
+
 import React, {useEffect, useState, useMemo } from "react";
 import { useNavigate, Link } from 'react-router-dom';
 import './ApplicantApplications.css';

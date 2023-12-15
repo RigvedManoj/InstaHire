@@ -11,7 +11,7 @@ import {JobsList} from './View/Pages/Applicant/JobsList';
 import {ViewApplicant} from "./View/Pages/Employer/ViewApplicant";
 
 
-// App.js
+// App.js contains the routes for all react classes. Default route goes to Login Page.
 const App = () => {
     return (
         <BrowserRouter>

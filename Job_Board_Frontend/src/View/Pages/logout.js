@@ -1,3 +1,5 @@
+// Logout.js clears all local storage and routes to login page.
+
 import {useEffect, useState} from "react"
 import axios from "axios";
 import {useNavigate} from "react-router-dom";

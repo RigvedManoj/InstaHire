@@ -1,3 +1,7 @@
+/* This file contains the logic for viewing and editing the profile information of an employee.
+Existing Profile information is fetched from backend and new Profile information is posted to backend.
+This file can navigate to employer application and create job.*/
+
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import {useNavigate} from "react-router-dom";
@@ -50,7 +54,6 @@ export const EmployerHome = () => {
   };
 
   useEffect(() => {
-    // Function to fetch data from the backend
     const fetchData = async () => {
       try {
         const resp = await axios.get(
@@ -66,7 +69,6 @@ export const EmployerHome = () => {
         );
 
         if(resp.data.length !== 0){
-          // Append each field individually
           Object.keys(formData).forEach((key) => {
             setFormData((prevFormData) => {
               return { ...prevFormData, [key]: resp.data[0][key] };
@@ -88,7 +90,6 @@ export const EmployerHome = () => {
       }
     };
 
-    // Call the fetchData function
     fetchData();
   }, []);
 
@@ -100,7 +101,6 @@ export const EmployerHome = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Rest of your code for sending the POST request
       const { data } = await axios.post(
           'http://localhost:8000/employer/',
           formData,
@@ -135,7 +135,6 @@ export const EmployerHome = () => {
         <div className="profile-container">
           <h1>Employer Profile</h1>
           <form onSubmit={handleSubmit}>
-              {/* Form Group (first name) */}
             <div className="row">
               <div className="col-2">
                 <label htmlFor="companyName">Company Name:</label>

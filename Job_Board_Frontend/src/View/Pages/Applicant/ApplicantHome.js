@@ -1,3 +1,7 @@
+/* This file contains the logic for viewing and editing the applicant profile.
+Existing Profile information is fetched from backend and new Profile information is posted to backend.
+This file can navigate to applicant application and jobs list.*/
+
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './ApplicantHome.css';

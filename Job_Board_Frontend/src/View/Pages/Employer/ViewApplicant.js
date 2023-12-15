@@ -1,3 +1,7 @@
+/* This file contains the logic to view an applicant information.
+The information is view only and cannot be edited. The status of the application can be changed to accepted or rejected.
+This file can navigate to employer home, employer application and create job.*/
+
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './ViewApplicant.css';
@@ -49,10 +53,6 @@ export const ViewApplicant = () => {
                     headers: {'Content-Type': 'application/json'}
                 }
             );
-            /*localStorage.removeItem('applicant_username');
-            localStorage.removeItem('employer_username');
-            localStorage.removeItem('job_id');
-            localStorage.removeItem('application_id');*/
             navigate('/employer-applications')
         }
         catch (error) {
@@ -79,7 +79,6 @@ export const ViewApplicant = () => {
     };
 
     useEffect(() => {
-        // Function to fetch data from the backend
         const fetchData = async () => {
             try {
                 const resp = await axios.get(
@@ -95,7 +94,6 @@ export const ViewApplicant = () => {
                 );
 
                 if(resp.data.length !== 0){
-                    // Append each field individually
                     Object.keys(formData).forEach((key) => {
                         if(key !== 'resume'){
                             formData[key] = resp.data[0][key];
@@ -115,7 +113,6 @@ export const ViewApplicant = () => {
             }
         };
 
-        // Call the fetchData function
         fetchData();
     }, []);
 

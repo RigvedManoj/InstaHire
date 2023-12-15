@@ -1,6 +1,10 @@
+/* This file contains the logic for viewing all applicants who have applied to the jobs created by an employer.
+List of applicant information is fetched from backend matching employer id.
+Each applicant information can be viewed by clicking on the specific grid.
+This file can navigate to employer home, create job and view applicant.*/
+
 import React, {useEffect, useState, useMemo } from "react";
 import { useNavigate, Link } from 'react-router-dom';
-// import './ApplicantHome.css';
 import axios from "axios";
 
 export const EmployerApplications = () => {
@@ -38,7 +42,6 @@ export const EmployerApplications = () => {
             localStorage.setItem('job_id', application.job_id);
             navigate("/view_applicant")
         }
-        // You can perform additional actions here based on the clicked row
     };
     useEffect(() => {
         // Function to fetch data from the backend

@@ -1,4 +1,6 @@
-// Signup.js
+/*Signup.js contains the logic for both employer and applicant sign up.
+a form gets username, password and a boolean variable of whether they are an applicant or employer.*/
+
 import React, { useState } from 'react';
 import './Signup.css';
 import axios from "axios";
@@ -7,10 +9,9 @@ import {useNavigate} from "react-router-dom";
 export const Signup = () => {
     const [formData, setFormData] = useState({
         name: '',
-        // email: '',
         password: '',
         confirmPassword: '',
-        isEmployer: false,  // Initial state for the checkboxes
+        isEmployer: false,
         isApplicant: false,
     });
     const navigate = useNavigate();
@@ -51,7 +52,6 @@ export const Signup = () => {
 
                 };
 
-                // Rest of your code for sending the POST request
                 const url = formData.isApplicant
                     ? 'http://localhost:8000/signup/applicant'
                     : formData.isEmployer

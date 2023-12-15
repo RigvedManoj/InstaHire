@@ -1,7 +1,11 @@
+/* This file contains the logic to create a new job as an employer.
+Company name is autofilled and cannot be changed. Job information is posted to backend.
+This file can navigate to employer home and employer application.*/
+
 import React, {useEffect, useState} from 'react';
 import '../styles.css';
 import {useNavigate} from "react-router-dom";
-import axios from "axios"; // Import your CSS file for styling
+import axios from "axios";
 
 export const JobCreation = () => {
     const navigate = useNavigate();
@@ -40,7 +44,6 @@ export const JobCreation = () => {
     };
 
     useEffect(() => {
-        // Function to fetch data from the backend
         const fetchData = async () => {
             try {
                 const resp = await axios.get(
@@ -65,8 +68,6 @@ export const JobCreation = () => {
                 }
             }
         };
-
-        // Call the fetchData function
         fetchData();
     }, []);
 
