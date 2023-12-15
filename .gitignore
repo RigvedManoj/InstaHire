@@ -1,0 +1,29 @@
+# Ignore build folders
+bin/
+
+# Ignore config files
+application.properties
+
+# Ignore IDE files 
+.idea/
+*.iml
+*.class
+
+# Ignore dependency caches
+node_modules/
+.mvn
+
+package-lock.json
+
+
+# Ignore cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+#ignore Database
+Job_Board_Backend/db.sqlite3
+Job_Board_Backend/App/__pycache__/
+Job_Board_Backend/media/*
+Job_Board_Backend/App/migrations/*_initial.py
